@@ -35,7 +35,12 @@
     "login": "تسجيل الدخول",
     "logout": "تسجيل الخروج",
     "menu": "القائمة",
-    "language": "English"
+    "language": "English",
+    "wishlist": "المحفوظات",
+    "about": "من نحن",
+    "contact": "تواصل معنا",
+    "faq": "الأسئلة الشائعة",
+    "backToTop": "العودة للأعلى"
   },
   "home": {
     "heroFallbackHeadline": "الزيت المناسب لعربيتك من أول مرة",
@@ -66,7 +71,16 @@
     "relatedProducts": "قد تحتاج أيضاً",
     "fitsYourCar": "مناسب لعربيتك",
     "sku": "كود المنتج",
-    "searchPlaceholder": "ابحث عن زيت، فلتر، بطارية…"
+    "searchPlaceholder": "ابحث عن زيت، فلتر، بطارية…",
+    "saveToWishlist": "حفظ لوقت لاحق",
+    "removeFromWishlist": "إزالة من المحفوظات",
+    "savedToWishlist": "تم الحفظ",
+    "removedFromWishlist": "تمت الإزالة من المحفوظات",
+    "wishlist": "المحفوظات",
+    "wishlistEmpty": "لم تحفظ أي منتج بعد.",
+    "recentlyViewed": "شاهدت مؤخراً",
+    "quickAdd": "إضافة سريعة",
+    "searchHint": "ابحث في المنتجات"
   },
   "cart": {
     "title": "سلة المشتريات",

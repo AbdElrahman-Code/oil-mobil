@@ -113,7 +113,7 @@ export const SectionHeading = ({
         </p>
       ) : null}
       {title ? (
-        <h2 className={cn('text-h1 sm:text-h1', inverted ? 'text-white' : 'text-neutral-950')}>{title}</h2>
+        <h2 className={cn('text-h2', inverted ? 'text-white' : 'text-neutral-950')}>{title}</h2>
       ) : null}
       {subtitle ? (
         <p className={cn('mt-4 text-body leading-relaxed', inverted ? 'text-neutral-200' : 'text-neutral-400')}>

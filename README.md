@@ -98,7 +98,7 @@ codebase. The admin panel uses the same face and scale via
 ```
 src/
   payload.config.ts       collections, globals, localisation, storage, admin
-  collections/            16 collections — the whole business model
+  collections/            18 collections — the whole business model
   globals/                siteSettings · homepage (blocks) · navigation
   blocks/                 homepage section types the admin drags into order
   actions/                server actions: orders, bookings, oil finder, auth
@@ -149,6 +149,33 @@ adapters; without credentials the message is logged so staff can follow up.
 
 ---
 
+## Pages and front-end features
+
+**CMS pages.** `/about`, `/contact` and `/faq` are rows in the `pages`
+collection, built from a block library — page header, image + text, values,
+how-it-works steps, photo gallery, FAQ, contact, and a call-to-action band —
+plus every homepage section. A new page is a content task: add the row, stack
+the sections, set the slug. Header and footer links follow `showInHeader` /
+`showInFooter`.
+
+**Front-end features**
+
+| Feature | Where |
+| --- | --- |
+| Instant search (⌘K / Ctrl-K), debounced, keyboard driven | header, everywhere |
+| Save for later, with header badge and a `/wishlist` page | product cards, PDP |
+| Recently viewed trail | product pages |
+| Sticky buy bar on mobile once the CTA scrolls away | product pages |
+| Reading-progress bar and back-to-top | every page |
+| Stat counters that animate into view, honouring reduced-motion | homepage, about |
+| Seamless logo marquee | homepage |
+| Lightbox gallery with arrow-key navigation | about page |
+| Accordion FAQ that emits `FAQPage` structured data | faq, contact |
+| Branch maps from the coordinates in Site Settings | contact page |
+
+All of it is bilingual and mirrors in Arabic — including the search overlay, the
+lightbox arrows and the wizard's step transitions.
+
 ## Placeholder content
 
 Product, category and service imagery is **real photography**, sourced from
@@ -187,9 +214,33 @@ using fixed ones.
 
 ---
 
-## Notes for deployment
+## Deploying to Vercel
 
-- Host on Vercel with managed Postgres (Neon/Supabase) and R2/S3 for media.
+Set these in **Project → Settings → Environment Variables**, then redeploy:
+
+| Variable | Value |
+| --- | --- |
+| `DATABASE_URI` | Your Neon/Supabase connection string |
+| `PAYLOAD_SECRET` | A long random string |
+| `NEXT_PUBLIC_SERVER_URL` | `https://your-domain.vercel.app` |
+
+**Media needs a store.** Uploads default to local disk, which does not exist on
+a serverless host — images 404 and admin uploads fail. Attach a store in
+**Project → Storage → Create → Blob**; Vercel injects `BLOB_READ_WRITE_TOKEN`
+and the app switches to it automatically. Then re-run the image scripts so the
+files live in the store rather than on a developer's laptop:
+
+```bash
+npx tsx src/seed/photos.ts
+npx tsx src/seed/content.ts
+npx tsx src/seed/more-products.ts
+```
+
+S3 or Cloudflare R2 work the same way — set the `S3_*` variables instead.
+
+## Other deployment notes
+
+- Managed Postgres (Neon/Supabase) plus Blob/R2/S3 for media.
 - `push: true` (schema auto-sync) is used outside production; for production
   generate migrations with `npm run migrate:create` and run `npm run migrate`.
 - `outputFileTracingRoot` is pinned in `next.config.mjs` because a stray

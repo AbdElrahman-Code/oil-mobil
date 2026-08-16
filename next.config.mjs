@@ -15,6 +15,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     remotePatterns: [
+      { protocol: 'https', hostname: '**.public.blob.vercel-storage.com' },
       { protocol: 'https', hostname: '**.r2.dev' },
       { protocol: 'https', hostname: '**.amazonaws.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },

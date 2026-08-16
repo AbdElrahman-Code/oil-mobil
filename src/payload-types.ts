@@ -82,6 +82,7 @@ export interface Config {
     oilSpecifications: OilSpecification;
     oilAdjustmentRules: OilAdjustmentRule;
     oilFinderLeads: OilFinderLead;
+    pages: Page;
     legalPages: LegalPage;
     media: Media;
     users: User;
@@ -121,6 +122,7 @@ export interface Config {
     oilSpecifications: OilSpecificationsSelect<false> | OilSpecificationsSelect<true>;
     oilAdjustmentRules: OilAdjustmentRulesSelect<false> | OilAdjustmentRulesSelect<true>;
     oilFinderLeads: OilFinderLeadsSelect<false> | OilFinderLeadsSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     legalPages: LegalPagesSelect<false> | LegalPagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -1135,6 +1137,316 @@ export interface OilFinderLead {
   createdAt: string;
 }
 /**
+ * Build a page by stacking sections. The address is the slug in the sidebar, e.g. "about" becomes /about.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * Leave blank to generate automatically from the name.
+   */
+  slug?: string | null;
+  sections?:
+    | (
+        | {
+            eyebrow?: string | null;
+            heading: string;
+            subheading?: string | null;
+            /**
+             * Wide photo behind the title. Darkened automatically so text stays readable.
+             */
+            backgroundImage?: (number | null) | Media;
+            align?: ('start' | 'center') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageHero';
+          }
+        | {
+            eyebrow?: string | null;
+            heading?: string | null;
+            body?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            image?: (number | null) | Media;
+            /**
+             * Which side the photo sits on. Mirrors automatically in Arabic.
+             */
+            imageSide?: ('start' | 'end') | null;
+            bullets?:
+              | {
+                  text: string;
+                  id?: string | null;
+                }[]
+              | null;
+            buttonLabel?: string | null;
+            buttonHref?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'imageText';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            items?:
+              | {
+                  icon?: ('shield' | 'wrench' | 'clock' | 'droplet' | 'truck' | 'sparkles' | 'car' | 'battery') | null;
+                  title: string;
+                  description?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'values';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            items?:
+              | {
+                  title: string;
+                  description?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'steps';
+          }
+        | {
+            heading?: string | null;
+            /**
+             * Three to eight photos work best.
+             */
+            images: (number | Media)[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'gallery';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            items?:
+              | {
+                  question: string;
+                  answer: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'faq';
+          }
+        | {
+            /**
+             * Phone, WhatsApp, branches and opening hours come from Site Settings.
+             */
+            heading?: string | null;
+            subheading?: string | null;
+            /**
+             * Show a map for branches that have coordinates.
+             */
+            showMap?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contact';
+          }
+        | {
+            heading: string;
+            body?: string | null;
+            backgroundImage?: (number | null) | Media;
+            buttons?:
+              | {
+                  label: string;
+                  href: string;
+                  style?: ('accent' | 'primary' | 'outline') | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'ctaBand';
+          }
+        | {
+            /**
+             * Small line above the headline.
+             */
+            eyebrow?: string | null;
+            headline: string;
+            subheadline?: string | null;
+            /**
+             * Large landscape photo, at least 1920px wide.
+             */
+            backgroundImage?: (number | null) | Media;
+            buttons?:
+              | {
+                  label: string;
+                  href: string;
+                  style?: ('primary' | 'outline') | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            items?:
+              | {
+                  title: string;
+                  description?: string | null;
+                  icon?:
+                    ('droplet' | 'filter' | 'battery' | 'sparkles' | 'wrench' | 'shield' | 'clock' | 'truck') | null;
+                  href?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'services';
+          }
+        | {
+            heading?: string | null;
+            body?: string | null;
+            image?: (number | null) | Media;
+            buttonLabel?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'oilFinderCta';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            /**
+             * Leave empty to show every category marked "Show on homepage".
+             */
+            categories?: (number | ProductCategory)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'featuredCategories';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            source?: ('featured' | 'newest' | 'manual') | null;
+            products?: (number | Product)[] | null;
+            limit?: number | null;
+            ctaHref?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'featuredProducts';
+          }
+        | {
+            heading: string;
+            body?: string | null;
+            image?: (number | null) | Media;
+            buttonLabel?: string | null;
+            buttonHref?: string | null;
+            theme?: ('accent' | 'dark' | 'light') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'promoBanner';
+          }
+        | {
+            items?:
+              | {
+                  value: string;
+                  label: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'stats';
+          }
+        | {
+            heading?: string | null;
+            items?:
+              | {
+                  quote: string;
+                  author: string;
+                  carModel?: string | null;
+                  rating?: number | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'testimonials';
+          }
+        | {
+            heading?: string | null;
+            logos?:
+              | {
+                  image: number | Media;
+                  name?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'brandLogos';
+          }
+        | {
+            content: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            width?: ('narrow' | 'full') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richText';
+          }
+      )[]
+    | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  ogImage?: (number | null) | Media;
+  /**
+   * Add a link to the top menu.
+   */
+  showInHeader?: boolean | null;
+  /**
+   * Add a link to the footer.
+   */
+  showInFooter?: boolean | null;
+  /**
+   * Lower numbers appear first.
+   */
+  displayOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Terms of Service, Privacy Policy and Return Policy. Edit the text here — the footer links update automatically.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1256,6 +1568,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'oilFinderLeads';
         value: number | OilFinderLead;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'legalPages';
@@ -1731,6 +2047,266 @@ export interface OilFinderLeadsSelect<T extends boolean = true> {
   staffNotes?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  sections?:
+    | T
+    | {
+        pageHero?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              subheading?: T;
+              backgroundImage?: T;
+              align?: T;
+              id?: T;
+              blockName?: T;
+            };
+        imageText?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              image?: T;
+              imageSide?: T;
+              bullets?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              buttonLabel?: T;
+              buttonHref?: T;
+              id?: T;
+              blockName?: T;
+            };
+        values?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              items?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        steps?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        gallery?:
+          | T
+          | {
+              heading?: T;
+              images?: T;
+              id?: T;
+              blockName?: T;
+            };
+        faq?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        contact?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              showMap?: T;
+              id?: T;
+              blockName?: T;
+            };
+        ctaBand?:
+          | T
+          | {
+              heading?: T;
+              body?: T;
+              backgroundImage?: T;
+              buttons?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    style?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        hero?:
+          | T
+          | {
+              eyebrow?: T;
+              headline?: T;
+              subheadline?: T;
+              backgroundImage?: T;
+              buttons?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    style?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        services?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    icon?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        oilFinderCta?:
+          | T
+          | {
+              heading?: T;
+              body?: T;
+              image?: T;
+              buttonLabel?: T;
+              id?: T;
+              blockName?: T;
+            };
+        featuredCategories?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              categories?: T;
+              id?: T;
+              blockName?: T;
+            };
+        featuredProducts?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              source?: T;
+              products?: T;
+              limit?: T;
+              ctaHref?: T;
+              id?: T;
+              blockName?: T;
+            };
+        promoBanner?:
+          | T
+          | {
+              heading?: T;
+              body?: T;
+              image?: T;
+              buttonLabel?: T;
+              buttonHref?: T;
+              theme?: T;
+              id?: T;
+              blockName?: T;
+            };
+        stats?:
+          | T
+          | {
+              items?:
+                | T
+                | {
+                    value?: T;
+                    label?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        testimonials?:
+          | T
+          | {
+              heading?: T;
+              items?:
+                | T
+                | {
+                    quote?: T;
+                    author?: T;
+                    carModel?: T;
+                    rating?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        brandLogos?:
+          | T
+          | {
+              heading?: T;
+              logos?:
+                | T
+                | {
+                    image?: T;
+                    name?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        richText?:
+          | T
+          | {
+              content?: T;
+              width?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  metaTitle?: T;
+  metaDescription?: T;
+  ogImage?: T;
+  showInHeader?: T;
+  showInFooter?: T;
+  displayOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

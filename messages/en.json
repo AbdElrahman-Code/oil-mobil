@@ -35,7 +35,12 @@
     "login": "Log in",
     "logout": "Log out",
     "menu": "Menu",
-    "language": "العربية"
+    "language": "العربية",
+    "wishlist": "Saved",
+    "about": "About us",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "backToTop": "Back to top"
   },
   "home": {
     "heroFallbackHeadline": "The right oil for your car, first time",
@@ -66,7 +71,16 @@
     "relatedProducts": "You may also need",
     "fitsYourCar": "Fits your car",
     "sku": "SKU",
-    "searchPlaceholder": "Search for oil, filters, batteries…"
+    "searchPlaceholder": "Search for oil, filters, batteries…",
+    "saveToWishlist": "Save for later",
+    "removeFromWishlist": "Remove from saved",
+    "savedToWishlist": "Saved for later",
+    "removedFromWishlist": "Removed from saved",
+    "wishlist": "Saved items",
+    "wishlistEmpty": "You have not saved anything yet.",
+    "recentlyViewed": "Recently viewed",
+    "quickAdd": "Quick add",
+    "searchHint": "Search products"
   },
   "cart": {
     "title": "Your cart",

@@ -13,6 +13,9 @@ import { ProductGallery } from '@/components/shop/ProductGallery'
 import { AddToCartPanel } from '@/components/shop/AddToCartPanel'
 import { ProductCard } from '@/components/shop/ProductCard'
 import { ProductSchema } from '@/components/seo/StructuredData'
+import { RecentlyViewed } from '@/components/shop/RecentlyViewed'
+import { StickyBuyBar } from '@/components/shop/StickyBuyBar'
+import { WishlistButton } from '@/components/shop/WishlistButton'
 
 export const revalidate = 300
 
@@ -103,11 +106,21 @@ export default async function ProductPage({
             ) : null}
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-4 flex flex-wrap items-center gap-2">
             <Badge tone={inStock ? 'success' : 'neutral'}>
               {inStock ? t('inStock') : t('outOfStock')}
             </Badge>
             {product.sku ? <Badge tone="neutral">{`${t('sku')}: ${product.sku}`}</Badge> : null}
+            <WishlistButton
+              className="ms-auto border border-neutral-200"
+              item={{
+                productId: product.id,
+                name: product.name,
+                slug: product.slug ?? String(product.id),
+                price: product.price ?? 0,
+                image: mediaUrl(Array.isArray(product.images) ? product.images[0] : null, 'card'),
+              }}
+            />
           </div>
 
           <AddToCartPanel
@@ -156,6 +169,25 @@ export default async function ProductPage({
           <RichText data={product.description as SerializedEditorState} />
         </section>
       ) : null}
+
+      <RecentlyViewed
+        current={{
+          productId: product.id,
+          name: product.name,
+          slug: product.slug ?? String(product.id),
+          price: product.price ?? 0,
+          image: mediaUrl(Array.isArray(product.images) ? product.images[0] : null, 'card'),
+        }}
+      />
+
+      <StickyBuyBar
+        productId={product.id}
+        name={product.name}
+        slug={product.slug ?? String(product.id)}
+        price={product.price ?? 0}
+        image={mediaUrl(Array.isArray(product.images) ? product.images[0] : null, 'card')}
+        stockQuantity={product.allowBackorder ? null : (product.stockQuantity ?? 0)}
+      />
 
       {related.length ? (
         <section className="mt-20">

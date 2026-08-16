@@ -46,7 +46,8 @@ export const SiteHeader = async ({ locale }: { locale: Locale }) => {
         menu: t('menu'),
         cart: t('cart'),
         account: t('account'),
-        search: t('home'),
+        search: t('shop'),
+        wishlist: t('wishlist'),
         language: t('language'),
       }}
     />

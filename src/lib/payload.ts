@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import type { Locale } from '@/i18n/routing'
 import type {
+  Page,
   LegalPage,
   Homepage,
   Navigation,
@@ -140,6 +141,38 @@ export const getLegalPage = cache(async (slug: string, locale: Locale): Promise<
       where: { slug: { equals: slug } },
       limit: 1,
       depth: 0,
+    })
+    return result.docs[0] ?? null
+  } catch {
+    return null
+  }
+})
+
+export const getPages = cache(async (locale: Locale): Promise<Page[]> => {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'pages',
+      locale,
+      sort: 'displayOrder',
+      limit: 50,
+      depth: 0,
+    })
+    return result.docs
+  } catch {
+    return []
+  }
+})
+
+export const getPage = cache(async (slug: string, locale: Locale): Promise<Page | null> => {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'pages',
+      locale,
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 2,
     })
     return result.docs[0] ?? null
   } catch {

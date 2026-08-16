@@ -44,7 +44,7 @@ export const Navigation: GlobalConfig = {
       name: 'footerColumns',
       type: 'array',
       label: { en: 'Footer columns', ar: 'أعمدة الفوتر' },
-      maxRows: 4,
+      maxRows: 5,
       fields: [
         { name: 'title', type: 'text', required: true, localized: true },
         { name: 'links', type: 'array', fields: linkFields },

@@ -4,6 +4,7 @@ import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { ar } from '@payloadcms/translations/languages/ar'
 import { en } from '@payloadcms/translations/languages/en'
 import sharp from 'sharp'
@@ -16,6 +17,7 @@ import { Media } from '@/collections/Media'
 import { OilAdjustmentRules } from '@/collections/OilAdjustmentRules'
 import { OilFinderLeads } from '@/collections/OilFinderLeads'
 import { OilSpecifications } from '@/collections/OilSpecifications'
+import { Pages } from '@/collections/Pages'
 import { Orders } from '@/collections/Orders'
 import { ProductCategories } from '@/collections/ProductCategories'
 import { Products } from '@/collections/Products'
@@ -32,7 +34,16 @@ import { SiteSettings } from '@/globals/SiteSettings'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const useS3 = Boolean(process.env.S3_BUCKET && process.env.S3_ACCESS_KEY_ID)
+/**
+ * Media storage, picked from whatever the environment provides:
+ *  1. Vercel Blob — zero config, the token is injected once a Blob store is
+ *     attached to the project. This is what production uses.
+ *  2. S3 / Cloudflare R2 — for self-hosting or if you'd rather own the bucket.
+ *  3. Local disk — development only. Serverless filesystems are read-only, so
+ *     an admin uploading a photo on Vercel with no store attached would fail.
+ */
+const useVercelBlob = Boolean(process.env.BLOB_READ_WRITE_TOKEN)
+const useS3 = !useVercelBlob && Boolean(process.env.S3_BUCKET && process.env.S3_ACCESS_KEY_ID)
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
@@ -80,6 +91,7 @@ export default buildConfig({
     OilSpecifications,
     OilAdjustmentRules,
     OilFinderLeads,
+    Pages,
     LegalPages,
     Media,
     Users,
@@ -106,21 +118,31 @@ export default buildConfig({
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
   graphQL: { schemaOutputFile: path.resolve(dirname, '../generated-schema.graphql') },
   sharp,
-  plugins: useS3
-    ? [
-        s3Storage({
-          collections: { media: true },
-          bucket: process.env.S3_BUCKET as string,
-          config: {
-            endpoint: process.env.S3_ENDPOINT,
-            region: process.env.S3_REGION || 'auto',
-            credentials: {
-              accessKeyId: process.env.S3_ACCESS_KEY_ID as string,
-              secretAccessKey: process.env.S3_SECRET_ACCESS_KEY as string,
+  plugins: [
+    ...(useVercelBlob
+      ? [
+          vercelBlobStorage({
+            collections: { media: true },
+            token: process.env.BLOB_READ_WRITE_TOKEN as string,
+          }),
+        ]
+      : []),
+    ...(useS3
+      ? [
+          s3Storage({
+            collections: { media: true },
+            bucket: process.env.S3_BUCKET as string,
+            config: {
+              endpoint: process.env.S3_ENDPOINT,
+              region: process.env.S3_REGION || 'auto',
+              credentials: {
+                accessKeyId: process.env.S3_ACCESS_KEY_ID as string,
+                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY as string,
+              },
             },
-          },
-        }),
-      ]
-    : [],
+          }),
+        ]
+      : []),
+  ],
   upload: { limits: { fileSize: 10_000_000 } },
 })

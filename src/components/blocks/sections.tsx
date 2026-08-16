@@ -20,6 +20,8 @@ import { Button } from '@/components/ui/button'
 import { Card, SectionHeading } from '@/components/ui/primitives'
 import { ProductCard } from '@/components/shop/ProductCard'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/motion/Reveal'
+import { CountUp } from '@/components/motion/CountUp'
+import { Marquee } from '@/components/motion/Marquee'
 import { cn, mediaUrl } from '@/lib/utils'
 
 const icons = {
@@ -178,7 +180,7 @@ export const OilFinderCtaSection = ({
             <Droplet className="size-3.5" />
             Oil Finder
           </p>
-          <h2 className="text-h1 text-white sm:text-h1">{heading}</h2>
+          <h2 className="text-h2 text-white">{heading}</h2>
           {body ? <p className="mt-4 max-w-md leading-relaxed text-neutral-200">{body}</p> : null}
           <Button asChild size="lg" className="mt-8">
             <Link href="/oil-finder">{buttonLabel || 'Start'}</Link>
@@ -220,7 +222,7 @@ export const PromoBannerSection = ({
     >
       <div className="grid items-center gap-8 p-8 sm:p-12 lg:grid-cols-[1.2fr_1fr]">
         <div>
-          <h2 className={cn('text-h1 sm:text-h1', theme === 'light' ? 'text-neutral-950' : 'text-white')}>
+          <h2 className={cn('text-h2', theme === 'light' ? 'text-neutral-950' : 'text-white')}>
             {heading}
           </h2>
           {body ? (
@@ -256,8 +258,8 @@ export const StatsSection = ({ items }: { items?: { id?: string | null; value: s
       <StaggerGroup className="grid gap-6 rounded-[var(--radius-card)] border border-neutral-200 bg-white p-8 sm:grid-cols-2 lg:grid-cols-4 lg:p-12">
         {items.map((item) => (
           <StaggerItem key={item.id ?? item.label} className="text-center">
-            <p className="font-[family-name:var(--font-display)] text-h1 font-bold text-primary-500 lg:text-display">
-              {item.value}
+            <p className="font-[family-name:var(--font-display)] text-h1 font-bold text-primary lg:text-display">
+              <CountUp value={item.value} />
             </p>
             <p className="mt-2 text-body-sm text-neutral-400">{item.label}</p>
           </StaggerItem>
@@ -315,23 +317,22 @@ export const BrandLogosSection = ({
           {heading}
         </p>
       ) : null}
-      <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+      <Marquee>
         {logos.map((logo, index) => {
           const src = mediaUrl(logo.image as never, 'thumbnail')
           if (!src) return null
           return (
-            <Reveal key={logo.id ?? index} delay={index * 0.04}>
-              <Image
-                src={src}
-                alt={logo.name ?? ''}
-                width={120}
-                height={48}
-                className="h-10 w-auto opacity-45 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
-              />
-            </Reveal>
+            <Image
+              key={logo.id ?? index}
+              src={src}
+              alt={logo.name ?? ''}
+              width={120}
+              height={48}
+              className="h-10 w-auto opacity-50 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+            />
           )
         })}
-      </div>
+      </Marquee>
     </section>
   )
 }

@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/primitives'
 import { cn, formatPrice, mediaUrl } from '@/lib/utils'
 import { useCart } from '@/store/cart'
 import { track } from '@/components/analytics/AnalyticsProvider'
+import { WishlistButton } from './WishlistButton'
 import { useState } from 'react'
 
 export const ProductCard = ({
@@ -57,6 +58,21 @@ export const ProductCard = ({
       transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.3), ease: [0.16, 1, 0.3, 1] }}
       className="group relative flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-white transition-shadow duration-300 hover:shadow-[var(--shadow-lift)]"
     >
+      {/* Sits outside the aria-hidden thumbnail link so it keeps its own focus
+          order and accessible name. */}
+      <div className="absolute end-3 top-3 z-10">
+        <WishlistButton
+          size="sm"
+          item={{
+            productId: product.id,
+            name: product.name,
+            slug: product.slug ?? String(product.id),
+            price: product.price ?? 0,
+            image: imageSrc,
+          }}
+        />
+      </div>
+
       {/* The title below links to the same product, so this thumbnail is hidden
           from assistive tech rather than announced as a second, nameless link. */}
       <Link

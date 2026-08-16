@@ -3,11 +3,13 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronDown, Menu, Phone, Search, ShoppingBag, User, X } from 'lucide-react'
+import { ChevronDown, Heart, Menu, Phone, Search, ShoppingBag, User, X } from 'lucide-react'
 import { Link, usePathname } from '@/i18n/routing'
 import type { Locale } from '@/i18n/routing'
 import { useCart, cartCount } from '@/store/cart'
 import { cn } from '@/lib/utils'
+import { useWishlist } from '@/store/wishlist'
+import { SearchOverlay, useSearchHotkey } from '@/components/search/SearchOverlay'
 import { LocaleSwitcher } from './LocaleSwitcher'
 
 export type HeaderLink = {
@@ -24,7 +26,7 @@ type Props = {
   logoDarkUrl: string | null
   phone: string | null
   whatsapp: string | null
-  labels: { menu: string; cart: string; account: string; search: string; language: string }
+  labels: { menu: string; cart: string; account: string; search: string; language: string; wishlist: string }
 }
 
 export const HeaderShell = ({ locale, links, brandName, logoUrl, phone, labels }: Props) => {
@@ -34,7 +36,11 @@ export const HeaderShell = ({ locale, links, brandName, logoUrl, phone, labels }
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const items = useCart((state) => state.items)
   const openCart = useCart((state) => state.open)
+  const savedItems = useWishlist((state) => state.items)
+  const [searchOpen, setSearchOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
+
+  useSearchHotkey(() => setSearchOpen(true))
 
   useEffect(() => setMounted(true), [])
   useEffect(() => setMobileOpen(false), [pathname])
@@ -46,6 +52,7 @@ export const HeaderShell = ({ locale, links, brandName, logoUrl, phone, labels }
   }, [])
 
   const count = mounted ? cartCount(items) : 0
+  const savedCount = mounted ? savedItems.length : 0
 
   return (
     <header
@@ -138,12 +145,26 @@ export const HeaderShell = ({ locale, links, brandName, logoUrl, phone, labels }
 
           <LocaleSwitcher locale={locale} label={labels.language} />
 
-          <Link
-            href="/shop"
-            className="rounded-full p-2.5 text-neutral-700 transition-colors hover:bg-neutral-200"
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            className="rounded-full p-2.5 text-neutral-700 transition-colors hover:bg-primary-light hover:text-primary"
             aria-label={labels.search}
           >
             <Search className="size-5" />
+          </button>
+
+          <Link
+            href="/wishlist"
+            className="relative rounded-full p-2.5 text-neutral-700 transition-colors hover:bg-primary-light hover:text-primary"
+            aria-label={labels.wishlist}
+          >
+            <Heart className="size-5" />
+            {savedCount > 0 ? (
+              <span className="absolute -end-0.5 -top-0.5 grid size-5 place-items-center rounded-full bg-primary text-label font-bold text-white">
+                {savedCount}
+              </span>
+            ) : null}
           </Link>
 
           <Link
@@ -235,6 +256,7 @@ export const HeaderShell = ({ locale, links, brandName, logoUrl, phone, labels }
           </>
         ) : null}
       </AnimatePresence>
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   )
 }
