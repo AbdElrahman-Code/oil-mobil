@@ -11,16 +11,21 @@ import sharp from 'sharp'
  * replaces it by uploading a real photo. No code change, no redeploy.
  */
 
+/**
+ * Every generated composition sits on the brand's blue, with only the accent
+ * hue changing per product family. Red is kept out of large fills, matching the
+ * rule the site follows everywhere else.
+ */
 const palettes: Record<string, [string, string, string]> = {
-  oil: ['#0b0d10', '#2a1310', '#e23a2e'],
-  filter: ['#0b0d10', '#122029', '#3aa0e2'],
-  battery: ['#0b0d10', '#1d2410', '#9fe23a'],
-  care: ['#0b0d10', '#101d24', '#3ae2c8'],
-  accessory: ['#0b0d10', '#1a1620', '#a45ce2'],
-  sparePart: ['#0b0d10', '#201b12', '#e2a83a'],
-  wash: ['#06121a', '#0d2b3a', '#3ac6e2'],
-  hero: ['#08090b', '#1b0f0d', '#e23a2e'],
-  category: ['#0b0d10', '#1a1214', '#e2603a'],
+  oil: ['#0b0e14', '#0d1b33', '#4d80d1'],
+  filter: ['#0b0e14', '#0c1a2e', '#3a8fd1'],
+  battery: ['#0b0e14', '#0d1c2b', '#5fa8d1'],
+  care: ['#0b0e14', '#0b1d2b', '#4fc0d1'],
+  accessory: ['#0b0e14', '#111a2e', '#7f9fd8'],
+  sparePart: ['#0b0e14', '#141c2c', '#9ab0d8'],
+  wash: ['#08131f', '#0b2340', '#63b8e8'],
+  hero: ['#08090f', '#0a1730', '#0047ba'],
+  category: ['#0b0e14', '#0f1c33', '#0047ba'],
   brand: ['#111318', '#1b1e26', '#c3c9d2'],
 }
 
@@ -29,6 +34,48 @@ const escapeXml = (value: string) =>
     ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' })[char] as string,
   )
 
+type Glyph = 'droplet' | 'bubbles' | 'filter' | 'battery' | 'spark' | 'none'
+
+const glyphFor = (kind: string): Glyph =>
+  kind === 'oil' || kind === 'hero'
+    ? 'droplet'
+    : kind === 'wash' || kind === 'care'
+      ? 'bubbles'
+      : kind === 'filter'
+        ? 'filter'
+        : kind === 'battery'
+          ? 'battery'
+          : kind === 'category'
+            ? 'spark'
+            : 'none'
+
+/** Simple line art, drawn large and low-contrast so it reads as texture. */
+const glyphPath = (glyph: Glyph, cx: number, cy: number, size: number, accent: string) => {
+  const s = size
+  switch (glyph) {
+    case 'droplet':
+      return `<path d="M ${cx} ${cy - s} C ${cx + s * 0.85} ${cy - s * 0.1} ${cx + s * 0.62} ${cy + s * 0.72} ${cx} ${cy + s * 0.72} C ${cx - s * 0.62} ${cy + s * 0.72} ${cx - s * 0.85} ${cy - s * 0.1} ${cx} ${cy - s} Z" fill="none" stroke="${accent}" stroke-width="${s * 0.055}" opacity="0.5"/>`
+    case 'bubbles':
+      return [
+        [cx - s * 0.45, cy + s * 0.15, s * 0.42],
+        [cx + s * 0.35, cy - s * 0.25, s * 0.3],
+        [cx + s * 0.15, cy + s * 0.5, s * 0.18],
+        [cx - s * 0.05, cy - s * 0.55, s * 0.14],
+      ]
+        .map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${accent}" stroke-width="${s * 0.05}" opacity="0.45"/>`)
+        .join('')
+    case 'filter':
+      return `<rect x="${cx - s * 0.45}" y="${cy - s * 0.6}" width="${s * 0.9}" height="${s * 1.2}" rx="${s * 0.16}" fill="none" stroke="${accent}" stroke-width="${s * 0.055}" opacity="0.45"/>` +
+        [0.2, 0.5, 0.8].map((t) => `<line x1="${cx - s * 0.45}" y1="${cy - s * 0.6 + s * 1.2 * t}" x2="${cx + s * 0.45}" y2="${cy - s * 0.6 + s * 1.2 * t}" stroke="${accent}" stroke-width="${s * 0.035}" opacity="0.32"/>`).join('')
+    case 'battery':
+      return `<rect x="${cx - s * 0.55}" y="${cy - s * 0.38}" width="${s * 1.1}" height="${s * 0.76}" rx="${s * 0.12}" fill="none" stroke="${accent}" stroke-width="${s * 0.055}" opacity="0.45"/><rect x="${cx + s * 0.55}" y="${cy - s * 0.12}" width="${s * 0.1}" height="${s * 0.24}" fill="${accent}" opacity="0.4"/>`
+    case 'spark':
+      return `<path d="M ${cx} ${cy - s * 0.7} L ${cx + s * 0.18} ${cy - s * 0.18} L ${cx + s * 0.7} ${cy} L ${cx + s * 0.18} ${cy + s * 0.18} L ${cx} ${cy + s * 0.7} L ${cx - s * 0.18} ${cy + s * 0.18} L ${cx - s * 0.7} ${cy} L ${cx - s * 0.18} ${cy - s * 0.18} Z" fill="none" stroke="${accent}" stroke-width="${s * 0.05}" opacity="0.4"/>`
+    default:
+      return ''
+  }
+}
+
 const composition = ({
   width,
   height,
@@ -36,6 +83,8 @@ const composition = ({
   title,
   subtitle,
   seed,
+  glyph,
+  showTitle = true,
 }: {
   width: number
   height: number
@@ -43,49 +92,61 @@ const composition = ({
   title: string
   subtitle?: string
   seed: number
+  glyph: Glyph
+  showTitle?: boolean
 }) => {
   const [base, mid, accent] = palette
-  const cx = width * (0.3 + ((seed % 5) / 10))
-  const cy = height * (0.35 + ((seed % 3) / 10))
-  const r = Math.min(width, height) * (0.3 + ((seed % 4) / 20))
-  const angle = (seed % 6) * 15
+  const min = Math.min(width, height)
+  const cx = width * 0.5
+  const cy = height * (showTitle ? 0.42 : 0.5)
+  const glyphSize = min * 0.26
+  const tilt = -18 + (seed % 5) * 9
 
   return `
 <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="bg" x1="0" y1="0" x2="0.8" y2="1">
       <stop offset="0%" stop-color="${base}"/>
       <stop offset="100%" stop-color="${mid}"/>
     </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="${accent}" stop-opacity="0.55"/>
+    <radialGradient id="glow" cx="50%" cy="42%" r="58%">
+      <stop offset="0%" stop-color="${accent}" stop-opacity="0.4"/>
       <stop offset="100%" stop-color="${accent}" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.14"/>
-      <stop offset="55%" stop-color="#ffffff" stop-opacity="0.02"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.10"/>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.55"/>
     </linearGradient>
   </defs>
 
   <rect width="${width}" height="${height}" fill="url(#bg)"/>
-  <circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#glow)"/>
+  <rect width="${width}" height="${height}" fill="url(#glow)"/>
 
-  <g transform="rotate(${angle} ${width / 2} ${height / 2})" opacity="0.5">
-    <rect x="${-width}" y="${height * 0.62}" width="${width * 3}" height="${height * 0.012}" fill="${accent}" opacity="0.55"/>
-    <rect x="${-width}" y="${height * 0.7}" width="${width * 3}" height="${height * 0.004}" fill="#ffffff" opacity="0.25"/>
+  <g transform="rotate(${tilt} ${cx} ${cy})" opacity="0.55">
+    ${[0.18, 0.42, 0.66]
+      .map(
+        (t, i) =>
+          `<path d="M ${-width * 0.2} ${height * (t + 0.06)} Q ${cx} ${height * (t - 0.12)} ${width * 1.2} ${height * (t + 0.1)}" fill="none" stroke="${accent}" stroke-width="${min * (i === 1 ? 0.011 : 0.005)}" opacity="${i === 1 ? 0.5 : 0.28}"/>`,
+      )
+      .join('')}
   </g>
 
-  <rect width="${width}" height="${height}" fill="url(#sheen)"/>
+  ${glyphPath(glyph, cx, cy, glyphSize, accent)}
 
-  <text x="${width * 0.08}" y="${height * 0.84}" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif"
-        font-size="${Math.round(Math.min(width, height) * 0.075)}" font-weight="700" opacity="0.95">
-    ${escapeXml(title.slice(0, 26))}
-  </text>
+  <rect width="${width}" height="${height}" fill="url(#fade)"/>
+
   ${
-    subtitle
-      ? `<text x="${width * 0.08}" y="${height * 0.91}" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif"
-        font-size="${Math.round(Math.min(width, height) * 0.04)}" opacity="0.6">${escapeXml(subtitle.slice(0, 40))}</text>`
+    showTitle
+      ? `<text x="${cx}" y="${height * 0.8}" fill="#ffffff" text-anchor="middle"
+        font-family="Segoe UI, Tahoma, Arial, sans-serif"
+        font-size="${Math.round(min * 0.07)}" font-weight="700" opacity="0.96">${escapeXml(title.slice(0, 28))}</text>`
+      : ''
+  }
+  ${
+    showTitle && subtitle
+      ? `<text x="${cx}" y="${height * 0.87}" fill="#ffffff" text-anchor="middle"
+        font-family="Segoe UI, Tahoma, Arial, sans-serif" letter-spacing="2"
+        font-size="${Math.round(min * 0.032)}" opacity="0.6">${escapeXml(subtitle.slice(0, 40))}</text>`
       : ''
   }
 </svg>`
@@ -101,12 +162,15 @@ export const makeImage = async ({
   subtitle,
   width = 1200,
   height = 1200,
+  showTitle = true,
 }: {
   kind: keyof typeof palettes
   title: string
   subtitle?: string
   width?: number
   height?: number
+  /** Off for decorative backgrounds, where baked-in text would be wrong. */
+  showTitle?: boolean
 }): Promise<GeneratedImage> => {
   counter += 1
   const svg = composition({
@@ -116,6 +180,8 @@ export const makeImage = async ({
     title,
     subtitle,
     seed: counter,
+    glyph: glyphFor(kind),
+    showTitle,
   })
 
   const buffer = await sharp(Buffer.from(svg)).jpeg({ quality: 82, mozjpeg: true }).toBuffer()

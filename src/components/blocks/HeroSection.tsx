@@ -36,7 +36,7 @@ export const HeroSection = ({ eyebrow, headline, subheadline, imageUrl, imageAlt
         </>
       ) : null}
 
-      <div className="container-page relative flex min-h-[78svh] flex-col justify-center py-20 lg:min-h-[86svh] lg:py-28">
+      <div className="container-page relative flex min-h-[68svh] flex-col justify-center py-16 sm:min-h-[76svh] sm:py-20 lg:min-h-[86svh] lg:py-28">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
@@ -55,7 +55,7 @@ export const HeroSection = ({ eyebrow, headline, subheadline, imageUrl, imageAlt
             </motion.p>
           ) : null}
 
-          <h1 className="text-h1 leading-[1.05] text-white sm:text-display lg:text-display xl:text-display">
+          <h1 className="text-h2 leading-[1.08] text-white sm:text-h1 lg:text-display">
             {headline}
           </h1>
 

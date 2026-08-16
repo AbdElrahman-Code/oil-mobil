@@ -13,6 +13,7 @@ import { SiteHeader } from '@/components/layout/SiteHeader'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { CartDrawerMount } from '@/components/shop/CartDrawerMount'
 import { ScrollHelpers } from '@/components/layout/ScrollHelpers'
+import { FloatingActions } from '@/components/layout/FloatingActions'
 import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider'
 import { BrandStyle } from '@/components/layout/BrandStyle'
 import '../globals.css'
@@ -92,6 +93,7 @@ export default async function FrontendLayout({
             <SiteFooter locale={locale as Locale} />
             <CartDrawerMount />
             <ScrollHelpers />
+            <FloatingActions locale={locale as Locale} />
             <Toaster position={locale === 'ar' ? 'bottom-left' : 'bottom-right'} richColors closeButton />
           </AnalyticsProvider>
         </NextIntlClientProvider>

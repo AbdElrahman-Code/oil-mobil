@@ -203,6 +203,14 @@
   .hairline {
     border-block-end: 1px solid var(--border-subtle);
   }
+
+  /* Floating WhatsApp button and the mobile buy bar overlay the page bottom, so
+     the last section always keeps clear of them on small screens. */
+  @media (max-width: 1023px) {
+    footer {
+      padding-block-end: 4.5rem;
+    }
+  }
 }
 
 @utility no-scrollbar {
