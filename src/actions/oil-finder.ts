@@ -7,6 +7,7 @@ import { guard } from '@/lib/rate-limit'
 import { oilFinderSchema, oilLeadSchema } from '@/lib/validation'
 import { applyRules, bottlesNeeded, selectSpec, type OilRecommendation } from '@/lib/oil-engine'
 import { notify } from '@/lib/notifications'
+import { mediaUrl } from '@/lib/utils'
 
 export type OilFinderProduct = {
   id: number
@@ -48,15 +49,13 @@ const toProduct = (value: unknown, litresRequired?: number): OilFinderProduct | 
   if (!value || typeof value !== 'object') return null
   const product = value as Product
   const image = Array.isArray(product.images) ? product.images[0] : null
-  const imageUrl =
-    image && typeof image === 'object' ? ((image.sizes?.card?.url ?? image.url) as string | null) : null
 
   return {
     id: product.id,
     name: product.name,
     slug: product.slug ?? String(product.id),
     price: product.price ?? 0,
-    image: imageUrl,
+    image: mediaUrl(image, 'card'),
     brand: product.brand,
     volumeLiters: product.volumeLiters,
     stockQuantity: product.stockQuantity,

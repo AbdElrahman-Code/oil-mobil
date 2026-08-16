@@ -43,14 +43,28 @@ export const formatDate = (value: string | Date | null | undefined, locale: stri
 
 type MediaLike = number | Media | null | undefined
 
+/**
+ * Payload prefixes upload URLs with the configured serverURL. For media we host
+ * ourselves that makes an absolute same-origin URL, which next/image treats as a
+ * remote host and rejects unless it is whitelisted. Serving it as a relative
+ * path is both correct and cheaper. Blob/S3 URLs point elsewhere and are left
+ * untouched.
+ */
+const toSameOriginPath = (url: string): string => {
+  const base = process.env.NEXT_PUBLIC_SERVER_URL
+  if (base && url.startsWith(base)) return url.slice(base.length) || '/'
+  // Any localhost origin is ours during development, whatever the port.
+  return url.replace(/^https?:\/\/localhost(:\d+)?/, '')
+}
+
 /** Safe accessor for an upload relation that may be an id, an object, or missing. */
 export const mediaUrl = (media: MediaLike, size?: 'thumbnail' | 'card' | 'tablet' | 'hero'): string | null => {
   if (!media || typeof media === 'number') return null
   if (size && media.sizes) {
     const sized = media.sizes[size]
-    if (sized?.url) return sized.url
+    if (sized?.url) return toSameOriginPath(sized.url)
   }
-  return media.url ?? null
+  return media.url ? toSameOriginPath(media.url) : null
 }
 
 export const mediaAlt = (media: MediaLike): string => {

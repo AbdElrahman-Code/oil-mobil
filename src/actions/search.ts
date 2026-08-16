@@ -3,6 +3,7 @@
 import type { Locale } from '@/i18n/routing'
 import { getPayloadClient } from '@/lib/payload'
 import { guard } from '@/lib/rate-limit'
+import { mediaUrl } from '@/lib/utils'
 
 export type SearchHit = {
   id: number
@@ -47,14 +48,12 @@ export const searchProducts = async (query: string, locale: Locale = 'ar'): Prom
 
     return result.docs.map((product) => {
       const image = Array.isArray(product.images) ? product.images[0] : null
-      const imageUrl =
-        image && typeof image === 'object' ? ((image.sizes?.thumbnail?.url ?? image.url) as string | null) : null
       return {
         id: product.id,
         name: product.name,
         slug: product.slug ?? String(product.id),
         price: product.price ?? 0,
-        image: imageUrl,
+        image: mediaUrl(image, 'thumbnail'),
         brand: product.brand,
         category: typeof product.category === 'object' ? product.category?.name : null,
         inStock: (product.stockQuantity ?? 0) > 0 || Boolean(product.allowBackorder),
