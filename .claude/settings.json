@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp \"D:/tmp/claude/d--project-fl-oil-project/c79a85fd-d310-40d0-b8e8-6f936f806044/scratchpad/check.mjs\" ./check.mjs)",
+      "Bash(node check.mjs)",
+      "Bash(rm -f check.mjs)",
+      "Bash(npm run *)",
+      "Bash(node contrast.mjs)",
+      "Bash(mv contrast.mjs src/seed/contrast-audit.mjs)",
+      "Bash(rm -f topup.ts)",
+      "Bash(node -e ' *)",
+      "Bash(python -)",
+      "Bash(curl -s \"http://localhost:3000/api/legalPages?limit=5&depth=0\")",
+      "Bash(curl -s \"http://localhost:3000/api/washServices?limit=1&depth=0\")",
+      "Bash(curl -s \"http://localhost:3000/api/oilFinderLeads?limit=1\")",
+      "Bash(node src/seed/lighthouse.mjs)",
+      "Bash(grep -vE \"^\\\\s*$\")",
+      "Bash(curl -s -o /dev/null -w \"%{url_effective} %{http_code} redirects=%{num_redirects}\\\\n\" -L \"http://localhost:3000/ar\")",
+      "Bash(curl -sI \"http://localhost:3000/ar\")",
+      "Bash(curl -s -o /dev/null -w \"%{url_effective} %{http_code} redirects=%{num_redirects}\\\\n\" -L \"http://localhost:3000/\")",
+      "Bash(LH_VERBOSE=1 node src/seed/lighthouse.mjs)",
+      "Bash(npx tsx *)",
+      "Bash(grep -vE \"^\\(src|messages|media|node_modules|public|package.json|package-lock.json|next.config.mjs|postcss.config.mjs|tsconfig.json|README.md|generated-schema.graphql|next-env.d.ts|.next\\)$\")",
+      "Bash(git init *)",
+      "Bash(git config *)",
+      "Bash(git check-ignore *)",
+      "Bash(git add *)",
+      "Bash(grep -iE \"\\\\.env$|\\\\.env\\\\.|secret\")",
+      "Bash(git grep *)"
+    ]
+  }
+}

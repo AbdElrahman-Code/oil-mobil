@@ -1,0 +1,83 @@
+import { z } from 'zod'
+
+export const egyptianPhone = z
+  .string()
+  .trim()
+  .transform((value) => {
+    const digits = value.replace(/[^\d+]/g, '').replace(/^\+/, '')
+    if (digits.startsWith('20')) return `0${digits.slice(2)}`
+    if (digits.startsWith('0')) return digits
+    return `0${digits}`
+  })
+  .refine((value) => /^01[0-2,5]\d{8}$/.test(value), {
+    message: 'invalidPhone',
+  })
+
+export const addressSchema = z.object({
+  governorate: z.string().trim().min(2),
+  city: z.string().trim().min(2),
+  street: z.string().trim().min(4),
+  building: z.string().trim().optional(),
+  apartment: z.string().trim().optional(),
+  landmark: z.string().trim().optional(),
+})
+
+export const checkoutSchema = z
+  .object({
+    contactName: z.string().trim().min(2).max(80),
+    contactPhone: egyptianPhone,
+    fulfillmentMethod: z.enum(['delivery', 'pickup']),
+    paymentMethod: z.enum(['cod', 'payAtPickup', 'paymob']),
+    customerNote: z.string().trim().max(600).optional(),
+    address: addressSchema.optional(),
+    items: z
+      .array(
+        z.object({
+          productId: z.number().int().positive(),
+          quantity: z.number().int().min(1).max(99),
+        }),
+      )
+      .min(1),
+  })
+  .refine((data) => data.fulfillmentMethod !== 'delivery' || Boolean(data.address), {
+    message: 'addressRequired',
+    path: ['address'],
+  })
+
+export type CheckoutInput = z.infer<typeof checkoutSchema>
+
+export const oilFinderSchema = z.object({
+  brandId: z.number().int().positive(),
+  modelId: z.number().int().positive(),
+  year: z.number().int().min(1950).max(2100),
+  engineCode: z.string().trim().min(1),
+  mileageKm: z.number().int().min(0).max(2_000_000).optional(),
+  condition: z.enum(['excellent', 'good', 'consumesOil', 'rebuilt']).optional(),
+})
+
+export type OilFinderInput = z.infer<typeof oilFinderSchema>
+
+export const oilLeadSchema = z.object({
+  brandId: z.number().int().positive().optional(),
+  modelId: z.number().int().positive().optional(),
+  brandName: z.string().trim().max(80).optional(),
+  modelName: z.string().trim().max(80).optional(),
+  year: z.number().int().min(1950).max(2100).optional(),
+  engineLabel: z.string().trim().max(80).optional(),
+  mileageKm: z.number().int().min(0).max(2_000_000).optional(),
+  condition: z.enum(['excellent', 'good', 'consumesOil', 'rebuilt']).optional(),
+  contactName: z.string().trim().min(2).max(80),
+  contactPhone: egyptianPhone,
+})
+
+export const bookingSchema = z.object({
+  serviceId: z.number().int().positive(),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  timeSlot: z.string().regex(/^\d{2}:\d{2}$/),
+  contactName: z.string().trim().min(2).max(80),
+  contactPhone: egyptianPhone,
+  plateNumber: z.string().trim().max(20).optional(),
+  note: z.string().trim().max(600).optional(),
+})
+
+export type BookingInput = z.infer<typeof bookingSchema>

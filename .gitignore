@@ -1,0 +1,22 @@
+# dependencies
+node_modules
+
+# build output
+.next
+out
+*.tsbuildinfo
+next-env.d.ts
+
+# secrets — never commit these
+.env
+.env*.local
+.env.production
+
+# locally uploaded media (regenerate with `npm run seed`)
+/media
+
+# tooling
+.vercel
+*.log
+.DS_Store
+Thumbs.db
