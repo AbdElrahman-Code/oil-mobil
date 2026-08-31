@@ -7,7 +7,7 @@ import { Check, ShieldCheck, Truck } from 'lucide-react'
 import type { Locale } from '@/i18n/routing'
 import { Link } from '@/i18n/routing'
 import { getProductBySlug, getRelatedProducts } from '@/lib/products'
-import { formatPrice, mediaAlt, mediaUrl } from '@/lib/utils'
+import { formatPrice, mediaAlt, mediaUrl, relId } from '@/lib/utils'
 import { Badge } from '@/components/ui/primitives'
 import { ProductGallery } from '@/components/shop/ProductGallery'
 import { AddToCartPanel } from '@/components/shop/AddToCartPanel'
@@ -16,6 +16,7 @@ import { ProductSchema } from '@/components/seo/StructuredData'
 import { RecentlyViewed } from '@/components/shop/RecentlyViewed'
 import { StickyBuyBar } from '@/components/shop/StickyBuyBar'
 import { WishlistButton } from '@/components/shop/WishlistButton'
+import { FitmentBanner } from '@/components/shop/FitmentBanner'
 
 export const revalidate = 300
 
@@ -122,6 +123,12 @@ export default async function ProductPage({
               }}
             />
           </div>
+
+          <FitmentBanner
+            compatibleModelIds={(product.compatibleVehicles ?? [])
+              .map((vehicle) => relId(vehicle))
+              .filter((id): id is number => id !== null)}
+          />
 
           <AddToCartPanel
             productId={product.id}

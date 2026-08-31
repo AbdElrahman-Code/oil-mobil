@@ -10,6 +10,7 @@ import { useCart, cartCount } from '@/store/cart'
 import { cn } from '@/lib/utils'
 import { useWishlist } from '@/store/wishlist'
 import { SearchOverlay, useSearchHotkey } from '@/components/search/SearchOverlay'
+import { GarageButton } from '@/components/garage/GarageButton'
 import { LocaleSwitcher } from './LocaleSwitcher'
 
 export type HeaderLink = {
@@ -82,6 +83,10 @@ export const HeaderShell = ({ locale, links, brandName, logoUrl, phone, labels }
             </span>
           )}
         </Link>
+
+        <div className="hidden lg:block">
+          <GarageButton />
+        </div>
 
         <nav className="hidden flex-1 items-center gap-1 lg:flex" aria-label="Primary">
           {links.map((link) => {
@@ -197,6 +202,10 @@ export const HeaderShell = ({ locale, links, brandName, logoUrl, phone, labels }
             </AnimatePresence>
           </button>
         </div>
+      </div>
+
+      <div className="border-t border-neutral-200 px-4 py-2 lg:hidden">
+        <GarageButton compact />
       </div>
 
       <AnimatePresence>

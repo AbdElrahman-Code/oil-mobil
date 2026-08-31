@@ -212,5 +212,21 @@
     "contact": "Contact",
     "branches": "Branches",
     "followUs": "Follow us"
+  },
+  "garage": {
+    "title": "Which car are you shopping for?",
+    "subtitle": "Pick your car once and we will only show parts that fit it.",
+    "selectCar": "Select your car",
+    "clearCar": "Clear selected car",
+    "myCars": "Your cars",
+    "orPick": "Or choose another car",
+    "useThisCar": "Use this car",
+    "fitsYourCar": "Fits your car",
+    "mayNotFit": "May not fit your car",
+    "universal": "Fits most cars",
+    "onlyFitting": "Only show parts that fit my car",
+    "shoppingFor": "Shopping for",
+    "noFittingParts": "No parts here fit your car yet.",
+    "showAllInstead": "Show all parts instead"
   }
 }
