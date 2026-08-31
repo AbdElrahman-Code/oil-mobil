@@ -1,53 +1,70 @@
 import { getTranslations } from 'next-intl/server'
-import { getNavigation, getSiteSettings, getCategories } from '@/lib/payload'
-import { mediaUrl } from '@/lib/utils'
+import { getCategoryTree, getNavigation, getSiteSettings } from '@/lib/payload'
+import { formatPrice, mediaUrl } from '@/lib/utils'
 import type { Locale } from '@/i18n/routing'
 import { HeaderShell, type HeaderLink } from './HeaderShell'
+import type { MenuCategory } from './MegaMenu'
 
 export const SiteHeader = async ({ locale }: { locale: Locale }) => {
-  const [settings, navigation, categories, t] = await Promise.all([
+  const [settings, navigation, tree, t, tShop] = await Promise.all([
     getSiteSettings(locale),
     getNavigation(locale),
-    getCategories(locale),
+    getCategoryTree(locale),
     getTranslations({ locale, namespace: 'nav' }),
+    getTranslations({ locale, namespace: 'shop' }),
   ])
 
-  // Fall back to a sensible menu before the admin has built one.
+  const categories: MenuCategory[] = tree.map((category) => ({
+    id: category.id,
+    name: category.name,
+    slug: category.slug as string,
+    icon: category.icon,
+    children: category.children.map((child) => ({
+      id: child.id,
+      name: child.name,
+      slug: child.slug as string,
+    })),
+  }))
+
+  // The category bar carries services; the catalogue lives in the mega-menu, so
+  // shop links are filtered out to avoid saying the same thing twice.
   const configured: HeaderLink[] =
-    navigation?.header?.map((item) => ({
-      label: item.label,
-      href: item.href,
-      children: item.children?.map((child) => ({ label: child.label, href: child.href })) ?? [],
-    })) ?? []
+    navigation?.header
+      ?.filter((item) => item.href !== '/shop')
+      .map((item) => ({ label: item.label, href: item.href })) ?? []
 
   const fallback: HeaderLink[] = [
-    {
-      label: t('shop'),
-      href: '/shop',
-      children: categories
-        .filter((category) => category.showInNav && !category.parent)
-        .map((category) => ({ label: category.name, href: `/shop/${category.slug}` })),
-    },
-    { label: t('oilFinder'), href: '/oil-finder', children: [] },
-    { label: t('filters'), href: '/filters', children: [] },
-    { label: t('carWash'), href: '/car-wash', children: [] },
+    { label: t('oilFinder'), href: '/oil-finder' },
+    { label: t('filters'), href: '/filters' },
+    { label: t('carWash'), href: '/car-wash' },
   ]
+
+  const threshold = settings?.freeDeliveryThreshold ?? 0
+  const deliveryNote =
+    threshold > 0
+      ? locale === 'ar'
+        ? `توصيل مجاني للطلبات فوق ${formatPrice(threshold, locale)}`
+        : `Free delivery on orders over ${formatPrice(threshold, locale)}`
+      : null
 
   return (
     <HeaderShell
       locale={locale}
       links={configured.length ? configured : fallback}
+      categories={categories}
       brandName={settings?.siteName || t('home')}
       logoUrl={mediaUrl(settings?.logo)}
       logoDarkUrl={mediaUrl(settings?.logoDark)}
       phone={settings?.phone ?? null}
       whatsapp={settings?.whatsappNumber ?? null}
+      deliveryNote={deliveryNote}
       labels={{
         menu: t('menu'),
         cart: t('cart'),
         account: t('account'),
-        search: t('shop'),
+        search: tShop('title'),
         wishlist: t('wishlist'),
+        searchHint: tShop('searchPlaceholder'),
         language: t('language'),
       }}
     />

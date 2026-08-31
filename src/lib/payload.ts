@@ -179,3 +179,29 @@ export const getPage = cache(async (slug: string, locale: Locale): Promise<Page 
     return null
   }
 })
+
+export type CategoryNode = ProductCategory & { children: ProductCategory[] }
+
+/**
+ * The category tree, parents with their children attached. One query — the
+ * header, the shop index and the mega-menu all read from this.
+ */
+export const getCategoryTree = cache(async (locale: Locale): Promise<CategoryNode[]> => {
+  const all = await getCategories(locale)
+
+  const parentIdOf = (category: ProductCategory): number | null =>
+    typeof category.parent === 'object' && category.parent
+      ? category.parent.id
+      : typeof category.parent === 'number'
+        ? category.parent
+        : null
+
+  const tops = all.filter((category) => parentIdOf(category) === null)
+
+  return tops.map((top) => ({
+    ...top,
+    children: all
+      .filter((category) => parentIdOf(category) === top.id)
+      .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)),
+  }))
+})

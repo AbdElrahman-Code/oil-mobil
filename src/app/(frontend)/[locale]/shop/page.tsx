@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import type { Locale } from '@/i18n/routing'
-import { getCategories } from '@/lib/payload'
+import { getCategories, getCategoryTree } from '@/lib/payload'
 import { ProductGrid } from '@/components/shop/ProductGrid'
 import { ShopFilters } from '@/components/shop/ShopFilters'
+import { CategoryBrowser } from '@/components/shop/CategoryBrowser'
 import { queryProducts, type ProductQuery } from '@/lib/products'
 
 export const revalidate = 120
@@ -41,11 +42,16 @@ export default async function ShopPage({
     page: typeof sp.page === 'string' ? Number(sp.page) : 1,
   }
 
-  const [{ products, totalPages, page, brands }, categories, t] = await Promise.all([
+  const [{ products, totalPages, page, brands }, categories, tree, t] = await Promise.all([
     queryProducts(query),
     getCategories(locale),
+    getCategoryTree(locale),
     getTranslations({ locale, namespace: 'shop' }),
   ])
+
+  // With no search or filter applied, browsing the catalogue by category is a
+  // better first screen than an undifferentiated wall of products.
+  const browsing = !query.search && !query.brand && !query.minPrice && !query.maxPrice && page === 1
 
   return (
     <div className="container-page py-10 lg:py-16">
@@ -53,6 +59,13 @@ export default async function ShopPage({
         <h1 className="text-h1 lg:text-h1">{t('title')}</h1>
         <p className="mt-3 text-neutral-400">{t('allProducts')}</p>
       </header>
+
+      {browsing ? (
+        <section className="mb-14">
+          <h2 className="mb-6 text-h3">{t('categories')}</h2>
+          <CategoryBrowser tree={tree} />
+        </section>
+      ) : null}
 
       <div className="grid gap-8 lg:grid-cols-[16rem_1fr]">
         <ShopFilters categories={categories} brands={brands} />
