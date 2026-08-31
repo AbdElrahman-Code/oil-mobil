@@ -36,7 +36,6 @@ export const SiteHeader = async ({ locale }: { locale: Locale }) => {
   const fallback: HeaderLink[] = [
     { label: t('oilFinder'), href: '/oil-finder' },
     { label: t('filters'), href: '/filters' },
-    { label: t('carWash'), href: '/car-wash' },
   ]
 
   const threshold = settings?.freeDeliveryThreshold ?? 0

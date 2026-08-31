@@ -2,31 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import {
-  Battery,
-  Car,
-  ChevronRight,
-  Droplet,
-  Filter as FilterIcon,
-  LayoutGrid,
-  Package,
-  Sparkles,
-  Wrench,
-  X,
-} from 'lucide-react'
+import { ChevronRight, LayoutGrid, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link, usePathname } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
-
-const icons = {
-  droplet: Droplet,
-  filter: FilterIcon,
-  battery: Battery,
-  sparkles: Sparkles,
-  wrench: Wrench,
-  car: Car,
-  package: Package,
-} as const
+import { categoryStyle, categoryTheme } from '@/lib/category-theme'
 
 export type MenuCategory = {
   id: number
@@ -93,20 +73,24 @@ export const MegaMenu = ({ categories }: { categories: MenuCategory[] }) => {
             <div className="grid md:grid-cols-[16rem_1fr]">
               <ul className="max-h-[26rem] overflow-y-auto border-neutral-200 p-2 md:border-e">
                 {categories.map((category) => {
-                  const Icon = icons[(category.icon ?? 'package') as keyof typeof icons] ?? Package
+                  const { Icon } = categoryTheme(category.slug)
                   const isActive = activeCategory?.id === category.id
                   return (
-                    <li key={category.id}>
+                    <li key={category.id} style={categoryStyle(category.slug)}>
                       <Link
                         href={`/shop/${category.slug}`}
                         onMouseEnter={() => setActive(category.id)}
                         onFocus={() => setActive(category.id)}
                         className={cn(
                           'flex items-center gap-3 rounded-xl px-3 py-2.5 text-body-sm transition-colors',
-                          isActive ? 'bg-primary-light text-primary-dark' : 'text-neutral-700 hover:bg-neutral-100',
+                          isActive
+                            ? 'bg-[var(--cat-soft)] text-[var(--cat-ink)]'
+                            : 'text-neutral-700 hover:bg-neutral-100',
                         )}
                       >
-                        <Icon className="size-4 shrink-0 text-primary" />
+                        <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-[var(--cat)] text-white">
+                          <Icon className="size-4" />
+                        </span>
                         <span className="flex-1 font-medium">{category.name}</span>
                         <ChevronRight className="size-3.5 opacity-40 rtl:rotate-180" />
                       </Link>
@@ -115,12 +99,12 @@ export const MegaMenu = ({ categories }: { categories: MenuCategory[] }) => {
                 })}
               </ul>
 
-              <div className="hidden p-5 md:block">
+              <div className="hidden p-5 md:block" style={categoryStyle(activeCategory?.slug)}>
                 {activeCategory ? (
                   <>
                     <Link
                       href={`/shop/${activeCategory.slug}`}
-                      className="text-h4 hover:text-primary"
+                      className="text-h4 hover:text-[var(--cat-ink)]"
                     >
                       {activeCategory.name}
                     </Link>
@@ -129,7 +113,7 @@ export const MegaMenu = ({ categories }: { categories: MenuCategory[] }) => {
                         <li key={child.id}>
                           <Link
                             href={`/shop/${child.slug}`}
-                            className="block rounded-lg px-2 py-1.5 text-body-sm text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-primary"
+                            className="block rounded-lg px-2 py-1.5 text-body-sm text-neutral-600 transition-colors hover:bg-[var(--cat-soft)] hover:text-[var(--cat-ink)]"
                           >
                             {child.name}
                           </Link>
@@ -138,7 +122,7 @@ export const MegaMenu = ({ categories }: { categories: MenuCategory[] }) => {
                     </ul>
                     <Link
                       href={`/shop/${activeCategory.slug}`}
-                      className="mt-5 inline-flex items-center gap-1.5 text-body-sm font-semibold text-primary hover:underline"
+                      className="mt-5 inline-flex items-center gap-1.5 text-body-sm font-semibold text-[var(--cat-ink)] hover:underline"
                     >
                       {t('allProducts')}
                       <ChevronRight className="size-3.5 rtl:rotate-180" />

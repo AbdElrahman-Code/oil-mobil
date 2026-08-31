@@ -54,6 +54,57 @@
   --color-neutral-50: #fafbfc;
   --color-white: #ffffff;
 
+  /* Category accents — every section of the catalogue gets its own hue so the
+     shop reads as colourful and each aisle is recognisable at a glance. All of
+     them clear AA against white for their -ink pairing. */
+  --color-cat-oil: #0047ba;
+  --color-cat-oil-soft: #e6edf9;
+  --color-cat-oil-ink: #00337f;
+
+  --color-cat-filter: #0e7490;
+  --color-cat-filter-soft: #e0f5fa;
+  --color-cat-filter-ink: #0b5a70;
+
+  --color-cat-battery: #b45309;
+  --color-cat-battery-soft: #fdf0dd;
+  --color-cat-battery-ink: #8a3f06;
+
+  --color-cat-brake: #d42e12;
+  --color-cat-brake-soft: #fbe7e3;
+  --color-cat-brake-ink: #a82209;
+
+  --color-cat-suspension: #6d28d9;
+  --color-cat-suspension-soft: #f0e9fd;
+  --color-cat-suspension-ink: #55209f;
+
+  --color-cat-engine: #b91c5c;
+  --color-cat-engine-soft: #fce7f0;
+  --color-cat-engine-ink: #921648;
+
+  --color-cat-transmission: #4d7c0f;
+  --color-cat-transmission-soft: #eef7dd;
+  --color-cat-transmission-ink: #3c620c;
+
+  --color-cat-tyre: #334155;
+  --color-cat-tyre-soft: #eef1f5;
+  --color-cat-tyre-ink: #26313f;
+
+  --color-cat-body: #0f766e;
+  --color-cat-body-soft: #dff5f2;
+  --color-cat-body-ink: #0b5a54;
+
+  --color-cat-interior: #7c3aed;
+  --color-cat-interior-soft: #f2ebfe;
+  --color-cat-interior-ink: #6128c4;
+
+  --color-cat-care: #0891b2;
+  --color-cat-care-soft: #e0f6fb;
+  --color-cat-care-ink: #06718b;
+
+  --color-cat-tools: #475569;
+  --color-cat-tools-soft: #eff2f6;
+  --color-cat-tools-ink: #37414f;
+
   /* Status */
   --color-success: #12734f;
   --color-success-light: #e6f4ee;
@@ -192,6 +243,13 @@
   }
 
   /* Dark sections: deep neutral with a blue wash, red kept out of large fills. */
+  /* Colourful, airy section ground used behind category browsing. */
+  .surface-tint {
+    background-image:
+      radial-gradient(38rem 22rem at 12% -10%, rgb(0 71 186 / 0.09), transparent 62%),
+      radial-gradient(30rem 20rem at 92% 0%, rgb(212 46 18 / 0.07), transparent 60%);
+  }
+
   .surface-dark {
     background-color: var(--color-neutral-950);
     background-image:

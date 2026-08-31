@@ -10,7 +10,6 @@ import type {
   Product,
   ProductCategory,
   SiteSetting,
-  WashService,
 } from '@/payload-types'
 
 /** Local API client. Runs in-process — no HTTP round trip from server components. */
@@ -99,22 +98,6 @@ export const getProductsByIds = cache(async (locale: Locale, ids: number[]): Pro
   }
 })
 
-export const getWashServices = cache(async (locale: Locale): Promise<WashService[]> => {
-  try {
-    const payload = await getPayloadClient()
-    const result = await payload.find({
-      collection: 'washServices',
-      locale,
-      where: { isActive: { equals: true } },
-      sort: 'displayOrder',
-      limit: 50,
-      depth: 1,
-    })
-    return result.docs
-  } catch {
-    return []
-  }
-})
 
 export const getLegalPages = cache(async (locale: Locale): Promise<LegalPage[]> => {
   try {

@@ -10,6 +10,9 @@ export const WashServices: CollectionConfig = {
   },
   admin: {
     group: { en: 'Bookings', ar: 'الحجوزات' },
+    // Car wash was retired from the storefront. Hidden rather than deleted so
+    // the existing bookings and packages are not destroyed.
+    hidden: true,
     useAsTitle: 'name',
     defaultColumns: ['name', 'price', 'durationMinutes', 'isActive'],
     description:

@@ -23,6 +23,7 @@ import { Reveal, StaggerGroup, StaggerItem } from '@/components/motion/Reveal'
 import { CountUp } from '@/components/motion/CountUp'
 import { Marquee } from '@/components/motion/Marquee'
 import { cn, mediaUrl } from '@/lib/utils'
+import { categoryStyle, categoryTheme } from '@/lib/category-theme'
 
 const icons = {
   droplet: Droplet,
@@ -88,40 +89,31 @@ export const CategoriesSection = ({
 }) => {
   if (!categories.length) return null
   return (
-    <section className="container-page py-20 lg:py-28">
-      <SectionHeading title={heading} subtitle={subheading} />
-      <StaggerGroup className="mt-10 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:mt-12 lg:grid-cols-3">
-        {categories.map((category) => {
-          const Icon = iconFor(category.icon)
-          const image = mediaUrl(category.image, 'card')
-          return (
-            <StaggerItem key={category.id}>
-              <Link
-                href={`/shop/${category.slug}`}
-                className="group relative flex h-52 flex-col justify-end overflow-hidden rounded-[var(--radius-card)] bg-neutral-900 p-6 text-white"
-              >
-                {image ? (
-                  <Image
-                    src={image}
-                    alt=""
-                    fill
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                    className="object-cover opacity-55 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105"
-                  />
-                ) : null}
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-transparent" />
-                <div className="relative">
-                  <Icon className="mb-3 size-6 text-primary-400" />
-                  <h3 className="text-h4 font-semibold">{category.name}</h3>
-                  {category.description ? (
-                    <p className="mt-1 line-clamp-2 text-body-sm text-neutral-200">{category.description}</p>
-                  ) : null}
-                </div>
-              </Link>
-            </StaggerItem>
-          )
-        })}
-      </StaggerGroup>
+    <section className="surface-tint">
+      <div className="container-page py-16 lg:py-24">
+        <SectionHeading title={heading} subtitle={subheading} align="center" />
+        <StaggerGroup className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          {categories.map((category) => {
+            const { Icon } = categoryTheme(category.slug)
+            return (
+              <StaggerItem key={category.id}>
+                <Link
+                  href={`/shop/${category.slug}`}
+                  style={categoryStyle(category.slug)}
+                  className="group flex h-full flex-col items-center gap-3 rounded-[1.5rem] border border-neutral-200 bg-white p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cat)] hover:shadow-[var(--shadow-lift)]"
+                >
+                  <span className="grid size-16 place-items-center rounded-2xl bg-[var(--cat-soft)] text-[var(--cat)] transition-colors duration-300 group-hover:bg-[var(--cat)] group-hover:text-white">
+                    <Icon className="size-7" />
+                  </span>
+                  <span className="font-semibold text-neutral-950 transition-colors group-hover:text-[var(--cat-ink)]">
+                    {category.name}
+                  </span>
+                </Link>
+              </StaggerItem>
+            )
+          })}
+        </StaggerGroup>
+      </div>
     </section>
   )
 }

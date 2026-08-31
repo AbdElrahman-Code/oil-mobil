@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { AlertTriangle, CalendarClock, Car, FileText, Package, Wrench } from 'lucide-react'
+import { AlertTriangle, Car, FileText, Package, Wrench } from 'lucide-react'
 import type { Locale } from '@/i18n/routing'
 import { Link, redirect } from '@/i18n/routing'
 import { getCurrentCustomer } from '@/actions/auth'
 import {
   daysUntil,
-  getCustomerBookings,
   getCustomerInvoices,
   getCustomerOrders,
   getCustomerServiceHistory,
@@ -36,10 +35,9 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
   if (!customer) redirect({ href: '/account/login', locale })
 
   const customerId = (customer as NonNullable<typeof customer>).id
-  const [vehicles, orders, bookings, invoices, history, t, tShop] = await Promise.all([
+  const [vehicles, orders, invoices, history, t, tShop] = await Promise.all([
     getCustomerVehicles(customerId, locale),
     getCustomerOrders(customerId, locale),
-    getCustomerBookings(customerId, locale),
     getCustomerInvoices(customerId),
     getCustomerServiceHistory(customerId),
     getTranslations({ locale, namespace: 'account' }),
@@ -206,31 +204,7 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
           )}
         </Card>
 
-        <Card className="p-6 lg:col-span-2">
-          <h2 className="mb-5 flex items-center gap-2 text-h4 font-semibold">
-            <CalendarClock className="size-5 text-primary-500" />
-            {t('bookings')}
-          </h2>
-          {bookings.length ? (
-            <ul className="divide-y divide-neutral-200">
-              {bookings.map((booking) => (
-                <li key={booking.id} className="flex flex-wrap items-center gap-3 py-3.5">
-                  <div className="flex-1">
-                    <p className="font-medium">
-                      {typeof booking.serviceType === 'object' ? booking.serviceType?.name : ''}
-                    </p>
-                    <p className="text-body-sm text-neutral-400" dir="ltr">
-                      {formatDate(booking.requestedDate, locale)} · {booking.requestedTimeSlot}
-                    </p>
-                  </div>
-                  <Badge tone={booking.status === 'completed' ? 'success' : 'neutral'}>{booking.status}</Badge>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-body-sm text-neutral-400">—</p>
-          )}
-        </Card>
+
       </div>
     </div>
   )

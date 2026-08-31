@@ -6,6 +6,9 @@ export const Bookings: CollectionConfig = {
   labels: { singular: { en: 'Booking', ar: 'حجز' }, plural: { en: 'Bookings', ar: 'الحجوزات' } },
   admin: {
     group: { en: 'Bookings', ar: 'الحجوزات' },
+    // Car wash was retired from the storefront. Hidden rather than deleted so
+    // the existing bookings and packages are not destroyed.
+    hidden: true,
     useAsTitle: 'reference',
     defaultColumns: ['reference', 'contactName', 'serviceType', 'requestedDate', 'requestedTimeSlot', 'status'],
     description: 'Car wash and detailing appointments. Confirm or cancel with the Status field.',

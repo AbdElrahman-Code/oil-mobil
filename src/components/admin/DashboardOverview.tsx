@@ -123,7 +123,6 @@ export const DashboardOverview = async () => {
           tone="primary"
           href="/admin/collections/orders?where[or][0][and][0][orderStatus][in]=pending,confirmed,preparing"
         />
-        <Tile label="Bookings today" value={stats.todayBookings} href="/admin/collections/bookings" />
         <Tile
           label="Oil changes due"
           value={stats.dueOilChanges}
