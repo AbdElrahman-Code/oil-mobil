@@ -48,7 +48,7 @@ export const WhatsAppButton = ({
   const href = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`
 
   return (
-    <div className="fixed bottom-20 start-4 z-40 flex items-end gap-3 lg:bottom-6 lg:start-6">
+    <div className="fixed bottom-24 start-4 z-40 flex items-end gap-3 lg:bottom-6 lg:start-6">
       <motion.a
         href={href}
         target="_blank"

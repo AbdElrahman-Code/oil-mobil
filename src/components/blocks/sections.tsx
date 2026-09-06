@@ -153,41 +153,6 @@ export const FeaturedProductsSection = async ({
   )
 }
 
-export const OilFinderCtaSection = ({
-  heading,
-  body,
-  buttonLabel,
-  imageUrl,
-}: {
-  heading?: string | null
-  body?: string | null
-  buttonLabel?: string | null
-  imageUrl?: string | null
-}) => (
-  <section className="container-page py-8 lg:py-12">
-    <Reveal className="surface-dark relative isolate overflow-hidden rounded-[2rem]">
-      <div className="grid items-center gap-10 p-8 sm:p-12 lg:grid-cols-2 lg:p-16">
-        <div>
-          <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 px-3.5 py-1.5 text-label font-semibold uppercase tracking-[0.18em] text-primary-300">
-            <Droplet className="size-3.5" />
-            Oil Finder
-          </p>
-          <h2 className="text-h2 text-white">{heading}</h2>
-          {body ? <p className="mt-4 max-w-md leading-relaxed text-neutral-200">{body}</p> : null}
-          <Button asChild size="lg" className="mt-8">
-            <Link href="/oil-finder">{buttonLabel || 'Start'}</Link>
-          </Button>
-        </div>
-        {imageUrl ? (
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-            <Image src={imageUrl} alt="" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
-          </div>
-        ) : null}
-      </div>
-    </Reveal>
-  </section>
-)
-
 export const PromoBannerSection = ({
   heading,
   body,

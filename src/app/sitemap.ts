@@ -4,7 +4,7 @@ import { locales } from '@/i18n/routing'
 
 const base = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
-const staticPaths = ['', '/shop', '/oil-finder', '/filters', '/about', '/contact', '/faq']
+const staticPaths = ['', '/shop', '/about', '/contact', '/faq']
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = []

@@ -45,39 +45,3 @@ export const checkoutSchema = z
   })
 
 export type CheckoutInput = z.infer<typeof checkoutSchema>
-
-export const oilFinderSchema = z.object({
-  brandId: z.number().int().positive(),
-  modelId: z.number().int().positive(),
-  year: z.number().int().min(1950).max(2100),
-  engineCode: z.string().trim().min(1),
-  mileageKm: z.number().int().min(0).max(2_000_000).optional(),
-  condition: z.enum(['excellent', 'good', 'consumesOil', 'rebuilt']).optional(),
-})
-
-export type OilFinderInput = z.infer<typeof oilFinderSchema>
-
-export const oilLeadSchema = z.object({
-  brandId: z.number().int().positive().optional(),
-  modelId: z.number().int().positive().optional(),
-  brandName: z.string().trim().max(80).optional(),
-  modelName: z.string().trim().max(80).optional(),
-  year: z.number().int().min(1950).max(2100).optional(),
-  engineLabel: z.string().trim().max(80).optional(),
-  mileageKm: z.number().int().min(0).max(2_000_000).optional(),
-  condition: z.enum(['excellent', 'good', 'consumesOil', 'rebuilt']).optional(),
-  contactName: z.string().trim().min(2).max(80),
-  contactPhone: egyptianPhone,
-})
-
-export const bookingSchema = z.object({
-  serviceId: z.number().int().positive(),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  timeSlot: z.string().regex(/^\d{2}:\d{2}$/),
-  contactName: z.string().trim().min(2).max(80),
-  contactPhone: egyptianPhone,
-  plateNumber: z.string().trim().max(20).optional(),
-  note: z.string().trim().max(600).optional(),
-})
-
-export type BookingInput = z.infer<typeof bookingSchema>

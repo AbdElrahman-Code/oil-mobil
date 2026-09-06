@@ -12,6 +12,9 @@ export const OilSpecifications: CollectionConfig = {
     plural: { en: 'Oil Specifications', ar: 'مواصفات الزيوت' },
   },
   admin: {
+    // Retired from the storefront. Hidden rather than deleted so existing
+    // records survive; remove the collection outright once confirmed.
+    hidden: true,
     group: { en: 'Vehicle Reference Data', ar: 'بيانات السيارات المرجعية' },
     useAsTitle: 'title',
     defaultColumns: ['title', 'vehicleModel', 'engineCode', 'recommendedViscosity', 'yearFrom', 'yearTo'],

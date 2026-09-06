@@ -7,8 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Car, Check, Loader2, X } from 'lucide-react'
 import type { Locale } from '@/i18n/routing'
 import type { VehicleBrand, VehicleModel } from '@/payload-types'
-import { listModels } from '@/actions/oil-finder'
-import { getMyCars, saveCarToGarage, type GarageCar } from '@/actions/garage'
+import { getMyCars, listModels, saveCarToGarage, type GarageCar } from '@/actions/garage'
 import { useGarage } from '@/store/garage'
 import { Button } from '@/components/ui/button'
 import { Label, NativeSelect } from '@/components/ui/primitives'
@@ -23,7 +22,6 @@ import { track } from '@/components/analytics/AnalyticsProvider'
 export const CarPicker = ({ brands }: { brands: VehicleBrand[] }) => {
   const locale = useLocale() as Locale
   const t = useTranslations('garage')
-  const tOil = useTranslations('oilFinder')
   const tCommon = useTranslations('common')
 
   const { pickerOpen, closePicker, select } = useGarage()
@@ -161,7 +159,7 @@ export const CarPicker = ({ brands }: { brands: VehicleBrand[] }) => {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <Label htmlFor="garage-brand">{tOil('brand')}</Label>
+                <Label htmlFor="garage-brand">{t('brand')}</Label>
                 <NativeSelect
                   id="garage-brand"
                   value={brandId ?? ''}
@@ -184,7 +182,7 @@ export const CarPicker = ({ brands }: { brands: VehicleBrand[] }) => {
               </div>
 
               <div>
-                <Label htmlFor="garage-model">{tOil('model')}</Label>
+                <Label htmlFor="garage-model">{t('model')}</Label>
                 <NativeSelect
                   id="garage-model"
                   value={modelId ?? ''}
@@ -205,7 +203,7 @@ export const CarPicker = ({ brands }: { brands: VehicleBrand[] }) => {
               </div>
 
               <div>
-                <Label htmlFor="garage-year">{tOil('year')}</Label>
+                <Label htmlFor="garage-year">{t('year')}</Label>
                 <NativeSelect
                   id="garage-year"
                   value={year ?? ''}
@@ -223,7 +221,7 @@ export const CarPicker = ({ brands }: { brands: VehicleBrand[] }) => {
 
               <div>
                 <Label htmlFor="garage-engine">
-                  {tOil('engine')} <span className="font-normal text-neutral-400">({tCommon('optional')})</span>
+                  {t('engine')} <span className="font-normal text-neutral-400">({tCommon('optional')})</span>
                 </Label>
                 <NativeSelect
                   id="garage-engine"

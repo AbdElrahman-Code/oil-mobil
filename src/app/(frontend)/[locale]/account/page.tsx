@@ -1,14 +1,12 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { AlertTriangle, Car, FileText, Package, Wrench } from 'lucide-react'
+import { AlertTriangle, Car, Package } from 'lucide-react'
 import type { Locale } from '@/i18n/routing'
 import { Link, redirect } from '@/i18n/routing'
 import { getCurrentCustomer } from '@/actions/auth'
 import {
   daysUntil,
-  getCustomerInvoices,
   getCustomerOrders,
-  getCustomerServiceHistory,
   getCustomerVehicles,
 } from '@/lib/account'
 import { Badge, Card } from '@/components/ui/primitives'
@@ -35,11 +33,9 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
   if (!customer) redirect({ href: '/account/login', locale })
 
   const customerId = (customer as NonNullable<typeof customer>).id
-  const [vehicles, orders, invoices, history, t, tShop] = await Promise.all([
+  const [vehicles, orders, t, tShop] = await Promise.all([
     getCustomerVehicles(customerId, locale),
     getCustomerOrders(customerId, locale),
-    getCustomerInvoices(customerId),
-    getCustomerServiceHistory(customerId),
     getTranslations({ locale, namespace: 'account' }),
     getTranslations({ locale, namespace: 'shop' }),
   ])
@@ -154,55 +150,9 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
           )}
         </Card>
 
-        <Card className="p-6">
-          <h2 className="mb-5 flex items-center gap-2 text-h4 font-semibold">
-            <Wrench className="size-5 text-primary-500" />
-            {t('serviceHistory')}
-          </h2>
-          {history.length ? (
-            <ol className="relative space-y-5 border-s border-neutral-200 ps-5">
-              {history.slice(0, 8).map((record) => (
-                <li key={record.id} className="relative">
-                  <span className="absolute -start-[1.6rem] top-1.5 size-2.5 rounded-full bg-primary-500" />
-                  <p className="text-body-sm font-medium">{formatDate(record.serviceDate, locale)}</p>
-                  <p className="text-body-sm text-neutral-400">
-                    {(record.serviceTypes ?? []).join(' · ')} · {record.mileageAtService} km
-                  </p>
-                  <p className="text-body-sm font-medium text-neutral-700">{formatPrice(record.cost, locale)}</p>
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <p className="text-body-sm text-neutral-400">{t('noHistory')}</p>
-          )}
-        </Card>
 
-        <Card className="p-6">
-          <h2 className="mb-5 flex items-center gap-2 text-h4 font-semibold">
-            <FileText className="size-5 text-primary-500" />
-            {t('invoices')}
-          </h2>
-          {invoices.length ? (
-            <ul className="divide-y divide-neutral-200">
-              {invoices.map((invoice) => (
-                <li key={invoice.id} className="flex items-center gap-3 py-3.5">
-                  <div className="flex-1">
-                    <p className="font-medium tabular-nums" dir="ltr">
-                      {invoice.invoiceNumber}
-                    </p>
-                    <p className="text-body-sm text-neutral-400">{formatDate(invoice.issueDate, locale)}</p>
-                  </div>
-                  <span className="font-semibold">{formatPrice(invoice.total, locale)}</span>
-                  <Button asChild size="sm" variant="outline">
-                    <Link href={`/account/invoices/${invoice.id}`}>{t('downloadInvoice')}</Link>
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-body-sm text-neutral-400">—</p>
-          )}
-        </Card>
+
+
 
 
       </div>

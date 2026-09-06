@@ -1,7 +1,7 @@
 /**
  * Rewrites the homepage as a shop-first page: hero, catalogue, popular stock,
- * a nudge toward the Oil Finder, trust numbers, reviews. Car wash is gone, and
- * so are the sections that only existed to point at it.
+ * trust numbers, reviews. Everything that pointed at the retired service
+ * modules is gone.
  *
  *   npx tsx src/seed/homepage.ts
  */
@@ -12,10 +12,9 @@ import config from '../payload.config'
 const run = async () => {
   const payload = await getPayload({ config })
 
-  // Keep whatever imagery the hero and Oil Finder already use.
+  // Keep whatever hero imagery is already in place.
   const current = await payload.findGlobal({ slug: 'homepage', locale: 'en' })
   const heroImage = current.sections?.find((section) => section.blockType === 'hero')?.backgroundImage
-  const finderImage = current.sections?.find((section) => section.blockType === 'oilFinderCta')?.image
 
   const build = (locale: 'en' | 'ar') => {
     const ar = locale === 'ar'
@@ -30,7 +29,7 @@ const run = async () => {
         backgroundImage: heroImage,
         buttons: [
           { label: ar ? 'تسوق الآن' : 'Shop now', href: '/shop', style: 'primary' },
-          { label: ar ? 'اعرف زيت عربيتك' : 'Find my oil', href: '/oil-finder', style: 'outline' },
+          { label: ar ? 'أنشئ حسابك' : 'Create an account', href: '/account/login', style: 'outline' },
         ],
       },
       {
@@ -47,15 +46,6 @@ const run = async () => {
         source: 'featured' as const,
         limit: 8,
         ctaHref: '/shop',
-      },
-      {
-        blockType: 'oilFinderCta' as const,
-        heading: ar ? 'مش عارف عربيتك بتاخد زيت إيه؟' : 'Not sure which oil your car takes?',
-        body: ar
-          ? 'قل لنا الماركة والموديل وسنة الصنع، وهنقول لك اللزوجة المناسبة ورقم الفلتر الصح وكام لتر محتاج.'
-          : 'Tell us the make, model and year and we will show you the exact viscosity, the right filter and how many litres you need.',
-        buttonLabel: ar ? 'افتح دليل الزيوت' : 'Open the Oil Finder',
-        image: finderImage,
       },
       {
         blockType: 'stats' as const,

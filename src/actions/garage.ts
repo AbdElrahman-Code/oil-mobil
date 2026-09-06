@@ -1,6 +1,7 @@
 'use server'
 
 import type { Locale } from '@/i18n/routing'
+import type { VehicleBrand, VehicleModel } from '@/payload-types'
 import { getPayloadClient } from '@/lib/payload'
 import { getCurrentCustomer } from './auth'
 import { guard } from '@/lib/rate-limit'
@@ -115,5 +116,40 @@ export const saveCarToGarage = async (
   } catch (error) {
     console.error('saveCarToGarage failed', error)
     return { ok: false, error: 'serverError' }
+  }
+}
+
+/* ── Vehicle reference data, used by the car picker ─────────────────────── */
+
+export const listBrands = async (): Promise<VehicleBrand[]> => {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'vehicleBrands',
+      where: { isActive: { equals: true } },
+      sort: 'displayOrder',
+      limit: 200,
+      depth: 1,
+    })
+    return result.docs
+  } catch {
+    return []
+  }
+}
+
+export const listModels = async (brandId: number, locale: Locale = 'ar'): Promise<VehicleModel[]> => {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'vehicleModels',
+      locale,
+      where: { and: [{ brand: { equals: brandId } }, { isActive: { equals: true } }] },
+      sort: 'name',
+      limit: 300,
+      depth: 0,
+    })
+    return result.docs
+  } catch {
+    return []
   }
 }

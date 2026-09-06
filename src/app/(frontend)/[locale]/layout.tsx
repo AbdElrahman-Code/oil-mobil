@@ -15,6 +15,7 @@ import { CartDrawerMount } from '@/components/shop/CartDrawerMount'
 import { ScrollHelpers } from '@/components/layout/ScrollHelpers'
 import { FloatingActions } from '@/components/layout/FloatingActions'
 import { GarageProvider } from '@/components/garage/GarageProvider'
+import { MobileTabBar } from '@/components/layout/MobileTabBar'
 import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider'
 import { BrandStyle } from '@/components/layout/BrandStyle'
 import '../globals.css'
@@ -96,6 +97,7 @@ export default async function FrontendLayout({
             <ScrollHelpers />
             <FloatingActions locale={locale as Locale} />
             <GarageProvider />
+            <MobileTabBar />
             <Toaster position={locale === 'ar' ? 'bottom-left' : 'bottom-right'} richColors closeButton />
           </AnalyticsProvider>
         </NextIntlClientProvider>

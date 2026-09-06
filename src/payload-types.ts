@@ -1324,15 +1324,6 @@ export interface Page {
           }
         | {
             heading?: string | null;
-            body?: string | null;
-            image?: (number | null) | Media;
-            buttonLabel?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'oilFinderCta';
-          }
-        | {
-            heading?: string | null;
             subheading?: string | null;
             /**
              * Leave empty to show every category marked "Show on homepage".
@@ -2203,16 +2194,6 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        oilFinderCta?:
-          | T
-          | {
-              heading?: T;
-              body?: T;
-              image?: T;
-              buttonLabel?: T;
-              id?: T;
-              blockName?: T;
-            };
         featuredCategories?:
           | T
           | {
@@ -2500,15 +2481,6 @@ export interface Homepage {
             id?: string | null;
             blockName?: string | null;
             blockType: 'services';
-          }
-        | {
-            heading?: string | null;
-            body?: string | null;
-            image?: (number | null) | Media;
-            buttonLabel?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'oilFinderCta';
           }
         | {
             heading?: string | null;
@@ -2809,16 +2781,6 @@ export interface HomepageSelect<T extends boolean = true> {
                     href?: T;
                     id?: T;
                   };
-              id?: T;
-              blockName?: T;
-            };
-        oilFinderCta?:
-          | T
-          | {
-              heading?: T;
-              body?: T;
-              image?: T;
-              buttonLabel?: T;
               id?: T;
               blockName?: T;
             };

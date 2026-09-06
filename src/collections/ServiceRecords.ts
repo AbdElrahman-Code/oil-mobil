@@ -9,6 +9,9 @@ export const ServiceRecords: CollectionConfig = {
     plural: { en: 'Service History', ar: 'سجل الصيانة' },
   },
   admin: {
+    // Retired from the storefront. Hidden rather than deleted so existing
+    // records survive; remove the collection outright once confirmed.
+    hidden: true,
     group: { en: 'Workshop', ar: 'الورشة' },
     useAsTitle: 'summary',
     defaultColumns: ['summary', 'vehicle', 'serviceDate', 'mileageAtService', 'cost'],

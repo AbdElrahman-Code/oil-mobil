@@ -13,6 +13,9 @@ export const OilAdjustmentRules: CollectionConfig = {
     plural: { en: 'Oil Recommendation Rules', ar: 'قواعد توصية الزيت' },
   },
   admin: {
+    // Retired from the storefront. Hidden rather than deleted so existing
+    // records survive; remove the collection outright once confirmed.
+    hidden: true,
     group: { en: 'Vehicle Reference Data', ar: 'بيانات السيارات المرجعية' },
     useAsTitle: 'name',
     defaultColumns: ['name', 'priority', 'isActive'],

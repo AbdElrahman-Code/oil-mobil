@@ -96,20 +96,6 @@ export const FeaturedProductsBlock: Block = {
   ],
 }
 
-export const OilFinderCtaBlock: Block = {
-  slug: 'oilFinderCta',
-  labels: {
-    singular: { en: 'Oil Finder call-to-action', ar: 'دعوة لاستخدام دليل الزيوت' },
-    plural: { en: 'Oil Finder call-to-actions', ar: 'دعوات دليل الزيوت' },
-  },
-  fields: [
-    { name: 'heading', type: 'text', localized: true },
-    { name: 'body', type: 'textarea', localized: true },
-    { name: 'image', type: 'upload', relationTo: 'media' },
-    { name: 'buttonLabel', type: 'text', localized: true },
-  ],
-}
-
 export const PromoBannerBlock: Block = {
   slug: 'promoBanner',
   labels: {
@@ -263,7 +249,6 @@ export const RichTextBlock: Block = {
 export const homepageBlocks: Block[] = [
   HeroBlock,
   ServicesBlock,
-  OilFinderCtaBlock,
   FeaturedCategoriesBlock,
   FeaturedProductsBlock,
   PromoBannerBlock,

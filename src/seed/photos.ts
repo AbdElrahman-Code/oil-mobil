@@ -222,16 +222,6 @@ const run = async () => {
   })
   tally(hero.sourced)
 
-  const finder = await uploadPhoto(payload, {
-    query: 'pouring motor oil engine',
-    pick: 1,
-    title: 'Oil finder',
-    altEn: 'Engine oil being poured into an engine',
-    altAr: 'صب زيت المحرك داخل المحرك',
-    kind: 'oil',
-  })
-  tally(finder.sourced)
-
   const promo = await uploadPhoto(payload, {
     query: 'car wash foam',
     pick: 2,
@@ -246,7 +236,6 @@ const run = async () => {
     const doc = await payload.findGlobal({ slug: 'homepage', locale })
     const sections = (doc.sections ?? []).map((section) => {
       if (section.blockType === 'hero') return { ...section, backgroundImage: hero.id }
-      if (section.blockType === 'oilFinderCta') return { ...section, image: finder.id }
       if (section.blockType === 'promoBanner') return { ...section, image: promo.id }
       return section
     })
@@ -256,7 +245,6 @@ const run = async () => {
   // Drop the artwork the homepage no longer points at.
   for (const section of homepage.sections ?? []) {
     if (section.blockType === 'hero') await removeMedia(payload, section.backgroundImage as number)
-    if (section.blockType === 'oilFinderCta') await removeMedia(payload, section.image as number)
     if (section.blockType === 'promoBanner') await removeMedia(payload, section.image as number)
   }
 

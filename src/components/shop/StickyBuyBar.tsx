@@ -51,7 +51,7 @@ export const StickyBuyBar = ({
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
           transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-          className="fixed inset-x-0 bottom-0 z-40 border-t border-neutral-200 bg-white/95 p-3 backdrop-blur-xl lg:hidden"
+          className="fixed inset-x-0 bottom-[4.25rem] z-40 border-y border-neutral-200 bg-white/95 p-3 backdrop-blur-xl lg:hidden"
         >
           <div className="flex items-center gap-3">
             <div className="min-w-0 flex-1">

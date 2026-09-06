@@ -826,13 +826,6 @@ const run = async () => {
           ],
         },
         {
-          blockType: 'oilFinderCta',
-          heading: 'Not sure which oil your car takes?',
-          body: 'Tell us the make, model, year and engine. We will show you the exact viscosity, the right filter part number and how many litres you need — in about thirty seconds.',
-          buttonLabel: 'Open the Oil Finder',
-          image: oilFinderImage,
-        },
-        {
           blockType: 'featuredCategories',
           heading: 'Shop by category',
           subheading: 'Everything we stock, organised the way a workshop thinks.',
@@ -909,13 +902,6 @@ const run = async () => {
             { title: 'البطاريات', description: 'اختبار وتركيب وتخلص آمن من القديمة — مع ضمان.', icon: 'battery', href: '/shop/batteries' },
             { title: 'الغسيل والتلميع', description: 'من غسيل سريع في 30 دقيقة لتلميع شامل للدهان.', icon: 'sparkles', href: '/car-wash' },
           ],
-        },
-        {
-          blockType: 'oilFinderCta',
-          heading: 'مش عارف عربيتك بتاخد زيت إيه؟',
-          body: 'قل لنا الماركة والموديل وسنة الصنع والمحرك، وهنقول لك اللزوجة المناسبة ورقم الفلتر الصح وكام لتر محتاج — في حوالي 30 ثانية.',
-          buttonLabel: 'افتح دليل الزيوت',
-          image: oilFinderImage,
         },
         { blockType: 'featuredCategories', heading: 'تسوق حسب القسم', subheading: 'كل اللي عندنا مرتب بطريقة الورشة.' },
         {

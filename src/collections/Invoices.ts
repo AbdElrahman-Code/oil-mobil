@@ -6,6 +6,9 @@ export const Invoices: CollectionConfig = {
   slug: 'invoices',
   labels: { singular: { en: 'Invoice', ar: 'فاتورة' }, plural: { en: 'Invoices', ar: 'الفواتير' } },
   admin: {
+    // Retired from the storefront. Hidden rather than deleted so existing
+    // records survive; remove the collection outright once confirmed.
+    hidden: true,
     group: { en: 'Sales', ar: 'المبيعات' },
     useAsTitle: 'invoiceNumber',
     defaultColumns: ['invoiceNumber', 'customer', 'issueDate', 'total', 'status'],

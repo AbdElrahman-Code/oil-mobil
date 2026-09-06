@@ -9,7 +9,6 @@ import {
   BrandLogosSection,
   CategoriesSection,
   FeaturedProductsSection,
-  OilFinderCtaSection,
   PromoBannerSection,
   ServicesSection,
   StatsSection,
@@ -104,17 +103,6 @@ export const RenderBlocks = async ({
             />
           )
         }
-
-        case 'oilFinderCta':
-          return (
-            <OilFinderCtaSection
-              key={key}
-              heading={section.heading}
-              body={section.body}
-              buttonLabel={section.buttonLabel}
-              imageUrl={mediaUrl(section.image, 'card')}
-            />
-          )
 
         case 'promoBanner':
           return (

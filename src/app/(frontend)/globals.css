@@ -265,8 +265,9 @@
   /* Floating WhatsApp button and the mobile buy bar overlay the page bottom, so
      the last section always keeps clear of them on small screens. */
   @media (max-width: 1023px) {
+    /* Clears the bottom tab bar and the floating buttons. */
     footer {
-      padding-block-end: 4.5rem;
+      padding-block-end: 6.5rem;
     }
   }
 }

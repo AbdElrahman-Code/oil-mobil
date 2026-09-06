@@ -12,6 +12,9 @@ export const OilFinderLeads: CollectionConfig = {
     plural: { en: 'Oil Enquiries (unmatched cars)', ar: 'استفسارات الزيوت' },
   },
   admin: {
+    // Retired from the storefront. Hidden rather than deleted so existing
+    // records survive; remove the collection outright once confirmed.
+    hidden: true,
     group: { en: 'Workshop', ar: 'الورشة' },
     useAsTitle: 'summary',
     defaultColumns: ['summary', 'contactPhone', 'status', 'createdAt'],

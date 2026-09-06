@@ -1,4 +1,4 @@
-import { listBrands } from '@/actions/oil-finder'
+import { listBrands } from '@/actions/garage'
 import { CarPicker } from './CarPicker'
 
 /** Loads the brand list once and mounts the picker for the whole app. */
