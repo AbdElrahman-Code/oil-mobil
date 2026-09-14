@@ -80,7 +80,8 @@
     "wishlistEmpty": "لم تحفظ أي منتج بعد.",
     "recentlyViewed": "شاهدت مؤخراً",
     "quickAdd": "إضافة سريعة",
-    "searchHint": "ابحث في المنتجات"
+    "searchHint": "ابحث في المنتجات",
+    "buyViaWhatsApp": "اسأل / اطلب على واتساب"
   },
   "cart": {
     "title": "سلة المشتريات",
@@ -94,7 +95,9 @@
     "checkout": "إتمام الطلب",
     "remove": "حذف",
     "quantity": "الكمية",
-    "continueShopping": "متابعة التسوق"
+    "continueShopping": "متابعة التسوق",
+    "orderViaWhatsApp": "اطلب عبر واتساب",
+    "orText": "أو"
   },
   "checkout": {
     "title": "إتمام الطلب",
@@ -117,7 +120,11 @@
     "orderNote": "هل تريد إضافة ملاحظة؟",
     "successTitle": "تم استلام طلبك",
     "successBody": "رقم طلبك {orderNumber}. هنتصل بك على {phone} للتأكيد.",
-    "trackOrder": "عرض الطلب"
+    "trackOrder": "عرض الطلب",
+    "whatsapp": "أرسل طلبي على واتساب",
+    "whatsappHint": "هنأكد معاك السعر والتوصيل والميعاد في المحادثة.",
+    "openWhatsApp": "افتح واتساب",
+    "whatsappSuccessBody": "طلبك {orderNumber} اتسجل. اضغط الزر عشان تبعته لنا على واتساب — التفاصيل مكتوبة جاهزة."
   },
   "oilFinder": {
     "title": "دليل الزيوت",

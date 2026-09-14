@@ -80,7 +80,7 @@ export const ImageTextSection = ({
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <Reveal className={cn(imageSide === 'start' && 'lg:order-2')}>
           {eyebrow ? (
-            <p className="mb-3 text-label uppercase text-primary">{eyebrow}</p>
+            <p className="mb-3 text-label uppercase text-primary-dark">{eyebrow}</p>
           ) : null}
           {heading ? <h2 className="text-h2">{heading}</h2> : null}
           {body ? (
@@ -93,7 +93,7 @@ export const ImageTextSection = ({
             <ul className="mt-6 space-y-3">
               {bullets.map((bullet) => (
                 <li key={bullet.id ?? bullet.text} className="flex items-start gap-3">
-                  <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-primary-light text-primary">
+                  <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-primary-light text-primary-dark">
                     <Check className="size-3" />
                   </span>
                   <span className="text-neutral-700">{bullet.text}</span>
@@ -146,7 +146,7 @@ export const ValuesSection = ({
           return (
             <StaggerItem key={item.id ?? item.title}>
               <Card className="h-full p-6">
-                <div className="mb-5 grid size-12 place-items-center rounded-2xl bg-primary-light text-primary">
+                <div className="mb-5 grid size-12 place-items-center rounded-2xl bg-primary-light text-primary-dark">
                   <Icon className="size-5" />
                 </div>
                 <h3 className="text-h4">{item.title}</h3>
@@ -183,7 +183,7 @@ export const StepsSection = ({
               {index < items.length - 1 ? (
                 <span className="absolute top-6 hidden h-px w-full bg-gradient-to-r from-primary/40 to-transparent lg:block ltr:start-14 rtl:end-14" />
               ) : null}
-              <span className="grid size-12 place-items-center rounded-full bg-primary text-h4 font-bold text-white">
+              <span className="grid size-12 place-items-center rounded-full bg-primary text-h4 font-bold text-neutral-950">
                 {index + 1}
               </span>
               <h3 className="mt-5 text-h4">{item.title}</h3>
@@ -283,8 +283,8 @@ export const ContactSection = ({
           <ul className="mt-5 space-y-4 text-body-sm">
             {settings?.phone ? (
               <li>
-                <a href={`tel:${settings.phone}`} className="flex items-center gap-3 text-neutral-700 hover:text-primary">
-                  <span className="grid size-10 place-items-center rounded-full bg-primary-light text-primary">
+                <a href={`tel:${settings.phone}`} className="flex items-center gap-3 text-neutral-700 hover:text-primary-dark">
+                  <span className="grid size-10 place-items-center rounded-full bg-primary-light text-primary-dark">
                     <Phone className="size-4" />
                   </span>
                   <span dir="ltr">{settings.phone}</span>
@@ -297,7 +297,7 @@ export const ContactSection = ({
                   href={`https://wa.me/${settings.whatsappNumber}`}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="flex items-center gap-3 text-neutral-700 hover:text-primary"
+                  className="flex items-center gap-3 text-neutral-700 hover:text-primary-dark"
                 >
                   <span className="grid size-10 place-items-center rounded-full bg-success-light text-success">
                     <Phone className="size-4" />
@@ -308,8 +308,8 @@ export const ContactSection = ({
             ) : null}
             {settings?.email ? (
               <li>
-                <a href={`mailto:${settings.email}`} className="flex items-center gap-3 text-neutral-700 hover:text-primary">
-                  <span className="grid size-10 place-items-center rounded-full bg-primary-light text-primary">
+                <a href={`mailto:${settings.email}`} className="flex items-center gap-3 text-neutral-700 hover:text-primary-dark">
+                  <span className="grid size-10 place-items-center rounded-full bg-primary-light text-primary-dark">
                     <Mail className="size-4" />
                   </span>
                   {settings.email}
@@ -357,7 +357,7 @@ export const ContactSection = ({
               <div className="flex-1 p-6">
                 <h3 className="text-h4">{branch.name}</h3>
                 <p className="mt-2 flex items-start gap-2 text-body-sm text-neutral-500">
-                  <MapPin className="mt-0.5 size-4 shrink-0 text-primary" />
+                  <MapPin className="mt-0.5 size-4 shrink-0 text-primary-dark" />
                   {branch.address}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">

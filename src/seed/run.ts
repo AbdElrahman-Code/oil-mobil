@@ -648,8 +648,8 @@ const run = async () => {
     data: {
       siteName: 'Auto Service Center',
       tagline: 'The right oil for your car, fitted by people who know engines.',
-      primaryColor: '#0047BA',
-      accentColor: '#D42E12',
+      primaryColor: '#F26B1D',
+      accentColor: '#1E3A5F',
       phone: '19XXX',
       whatsappNumber: '201001234567',
       email: 'hello@servicecenter.eg',

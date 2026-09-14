@@ -54,7 +54,7 @@ export const MegaMenu = ({ categories }: { categories: MenuCategory[] }) => {
         aria-expanded={open}
         className={cn(
           'flex h-11 items-center gap-2 rounded-full px-4 text-body-sm font-semibold transition-colors',
-          open ? 'bg-primary-dark text-white' : 'bg-primary text-white hover:bg-primary-dark',
+          open ? 'bg-neutral-950 text-white' : 'bg-primary text-neutral-950 hover:bg-primary-600',
         )}
       >
         {open ? <X className="size-4" /> : <LayoutGrid className="size-4" />}

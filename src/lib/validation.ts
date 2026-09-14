@@ -27,7 +27,7 @@ export const checkoutSchema = z
     contactName: z.string().trim().min(2).max(80),
     contactPhone: egyptianPhone,
     fulfillmentMethod: z.enum(['delivery', 'pickup']),
-    paymentMethod: z.enum(['cod', 'payAtPickup', 'paymob']),
+    paymentMethod: z.enum(['cod', 'payAtPickup', 'paymob', 'whatsapp']),
     customerNote: z.string().trim().max(600).optional(),
     address: addressSchema.optional(),
     items: z

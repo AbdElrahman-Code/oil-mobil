@@ -48,14 +48,14 @@ export const WishlistGrid = () => {
                 ) : null}
               </Link>
               <div className="flex flex-1 flex-col p-4">
-                <Link href={`/products/${item.slug}`} className="text-body-sm font-medium hover:text-primary">
+                <Link href={`/products/${item.slug}`} className="text-body-sm font-medium hover:text-primary-dark">
                   {item.name}
                 </Link>
                 <p className="mt-2 font-bold">{formatPrice(item.price, locale)}</p>
                 <div className="mt-auto flex gap-2 pt-4">
                   <Button
                     size="sm"
-                    variant="accent"
+                    variant="primary"
                     className="flex-1"
                     onClick={() => {
                       add({ ...item, maxQuantity: null })

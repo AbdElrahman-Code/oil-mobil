@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useLocale, useTranslations } from 'next-intl'
 import { motion } from 'framer-motion'
-import { CheckCircle2, CreditCard, Loader2, Store, Truck, Wallet } from 'lucide-react'
+import { CheckCircle2, CreditCard, Loader2, MessageCircle, Store, Truck, Wallet } from 'lucide-react'
 import { Link } from '@/i18n/routing'
 import { Button } from '@/components/ui/button'
 import { Card, FieldError, Input, Label, Textarea } from '@/components/ui/primitives'
@@ -16,12 +16,15 @@ import { placeOrder } from '@/actions/orders'
 import { cn, formatPrice } from '@/lib/utils'
 import { track } from '@/components/analytics/AnalyticsProvider'
 import { egyptianPhone } from '@/lib/validation'
+import { useSiteConfig } from '@/components/layout/SiteConfig'
+import { useGarage, carLabel } from '@/store/garage'
+import { buildWhatsAppOrderMessage, whatsAppLink } from '@/lib/whatsapp-order'
 
 const formSchema = z.object({
   contactName: z.string().trim().min(2),
   contactPhone: egyptianPhone,
   fulfillmentMethod: z.enum(['delivery', 'pickup']),
-  paymentMethod: z.enum(['cod', 'payAtPickup', 'paymob']),
+  paymentMethod: z.enum(['cod', 'payAtPickup', 'paymob', 'whatsapp']),
   customerNote: z.string().max(600).optional(),
   governorate: z.string().optional(),
   city: z.string().optional(),
@@ -51,7 +54,9 @@ export const CheckoutForm = ({
   const { items, clear } = useCart()
   const [submitting, setSubmitting] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<{ orderNumber: string; phone: string } | null>(null)
+  const [success, setSuccess] = useState<{ orderNumber: string; phone: string; whatsapp?: string } | null>(null)
+  const { siteName, whatsappNumber } = useSiteConfig()
+  const car = useGarage((state) => state.car)
 
   const {
     register,
@@ -99,9 +104,41 @@ export const CheckoutForm = ({
     setSubmitting(false)
 
     if (result.ok) {
-      track('order_placed', { orderNumber: result.orderNumber, total: result.total })
+      track('order_placed', { orderNumber: result.orderNumber, total: result.total, method: values.paymentMethod })
+
+      let whatsapp: string | undefined
+      if (values.paymentMethod === 'whatsapp' && whatsappNumber) {
+        // The order is already saved; the chat is how it gets confirmed.
+        const message = buildWhatsAppOrderMessage({
+          locale: locale === 'ar' ? 'ar' : 'en',
+          siteName,
+          orderNumber: result.orderNumber,
+          items: items.map((item) => ({ name: item.name, quantity: item.quantity, price: item.price })),
+          subtotal,
+          deliveryFee: shipping,
+          total,
+          customer: { name: values.contactName, phone: values.contactPhone },
+          fulfillment: values.fulfillmentMethod,
+          address:
+            values.fulfillmentMethod === 'delivery'
+              ? {
+                  governorate: values.governorate,
+                  city: values.city,
+                  street: values.street,
+                  building: values.building,
+                  apartment: values.apartment,
+                  landmark: values.landmark,
+                }
+              : null,
+          car: carLabel(car) || null,
+          note: values.customerNote,
+        })
+        whatsapp = whatsAppLink(whatsappNumber, message)
+        window.open(whatsapp, '_blank', 'noopener')
+      }
+
       clear()
-      setSuccess({ orderNumber: result.orderNumber, phone: values.contactPhone })
+      setSuccess({ orderNumber: result.orderNumber, phone: values.contactPhone, whatsapp })
     } else {
       setServerError(result.error)
     }
@@ -118,11 +155,23 @@ export const CheckoutForm = ({
         <CheckCircle2 className="mx-auto mb-5 size-14 text-success" />
         <h2 className="text-h2">{t('successTitle')}</h2>
         <p className="mt-3 text-neutral-500">
-          {t('successBody', { orderNumber: success.orderNumber, phone: success.phone })}
+          {success.whatsapp
+            ? t('whatsappSuccessBody', { orderNumber: success.orderNumber })
+            : t('successBody', { orderNumber: success.orderNumber, phone: success.phone })}
         </p>
-        <Button asChild size="lg" className="mt-8">
-          <Link href="/shop">{tCart('continueShopping')}</Link>
-        </Button>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          {success.whatsapp ? (
+            <Button asChild size="lg" variant="whatsapp">
+              <a href={success.whatsapp} target="_blank" rel="noreferrer noopener">
+                <MessageCircle className="size-4" />
+                {t('openWhatsApp')}
+              </a>
+            </Button>
+          ) : null}
+          <Button asChild size="lg" variant={success.whatsapp ? 'outline' : 'primary'}>
+            <Link href="/shop">{tCart('continueShopping')}</Link>
+          </Button>
+        </div>
       </motion.div>
     )
   }
@@ -223,7 +272,7 @@ export const CheckoutForm = ({
 
         <Card className="p-6">
           <h2 className="mb-5 text-h4 font-semibold">{t('payment')}</h2>
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="grid gap-3 sm:grid-cols-2">
             {codEnabled && fulfillment === 'delivery' ? (
               <label className={optionClass(paymentMethod === 'cod')}>
                 <input type="radio" value="cod" className="sr-only" {...register('paymentMethod')} />
@@ -236,6 +285,16 @@ export const CheckoutForm = ({
                 <input type="radio" value="payAtPickup" className="sr-only" {...register('paymentMethod')} />
                 <Store className="size-5 text-primary-500" />
                 {t('payAtPickup')}
+              </label>
+            ) : null}
+            {whatsappNumber ? (
+              <label className={cn(optionClass(paymentMethod === 'whatsapp'), paymentMethod === 'whatsapp' && 'border-[var(--color-whatsapp)] bg-[var(--color-whatsapp-light)]')}>
+                <input type="radio" value="whatsapp" className="sr-only" {...register('paymentMethod')} />
+                <MessageCircle className="size-5 text-[var(--color-whatsapp-ink)]" />
+                <span>
+                  <span className="block font-medium">{t('whatsapp')}</span>
+                  <span className="block text-body-sm text-neutral-500">{t('whatsappHint')}</span>
+                </span>
               </label>
             ) : null}
             {onlinePaymentEnabled ? (
@@ -295,9 +354,16 @@ export const CheckoutForm = ({
             </p>
           ) : null}
 
-          <Button type="submit" size="lg" variant="accent" block className="mt-6" disabled={submitting}>
-            {submitting ? <Loader2 className="size-4 animate-spin" /> : null}
-            {t('placeOrder')}
+          <Button
+            type="submit"
+            size="lg"
+            variant={paymentMethod === 'whatsapp' ? 'whatsapp' : 'primary'}
+            block
+            className="mt-6"
+            disabled={submitting}
+          >
+            {submitting ? <Loader2 className="size-4 animate-spin" /> : paymentMethod === 'whatsapp' ? <MessageCircle className="size-4" /> : null}
+            {paymentMethod === 'whatsapp' ? t('whatsapp') : t('placeOrder')}
           </Button>
         </Card>
       </aside>

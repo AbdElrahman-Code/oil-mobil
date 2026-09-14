@@ -13,8 +13,8 @@ import { getPayload } from 'payload'
 import sharp from 'sharp'
 import config from '../payload.config'
 
-const BLUE = '#0047BA'
-const RED = '#D42E12'
+const BLUE = '#F26B1D'
+const RED = '#1E3A5F'
 
 const escapeXml = (value: string) =>
   value.replace(/[<>&'"]/g, (char) =>

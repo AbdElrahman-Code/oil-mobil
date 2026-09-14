@@ -10,34 +10,43 @@
  * a token defined here.
  */
 @theme {
-  /* Primary — Mobil Blue */
-  --color-primary: #0047ba;
-  --color-primary-dark: #003488;
-  --color-primary-light: #e6edf9;
-  /* Numeric aliases so utilities can express emphasis on dark surfaces. */
-  --color-primary-50: #f2f6fd;
-  --color-primary-100: #e6edf9;
-  --color-primary-200: #c2d3f0;
-  --color-primary-300: #8fb0e3;
-  --color-primary-400: #4d80d1;
-  --color-primary-500: #0047ba;
-  --color-primary-600: #003488;
-  --color-primary-700: #002a6e;
-  --color-primary-800: #001f52;
-  --color-primary-900: #001536;
+  /* Primary — Orange.
+     Orange cannot carry white text at AA, so the system is built the way
+     Amazon's is: solid orange surfaces take DARK text (≈8:1), and wherever
+     orange is used *as* text on white it is the deeper -dark step (4.6:1). */
+  --color-primary: #f26b1d;
+  --color-primary-dark: #c2410c;
+  --color-primary-light: #ffe8d6;
+  --color-primary-50: #fff5ee;
+  --color-primary-100: #ffe8d6;
+  --color-primary-200: #ffcfab;
+  --color-primary-300: #ffad73;
+  --color-primary-400: #fb8c3f;
+  --color-primary-500: #f26b1d;
+  --color-primary-600: #e05a0e;
+  --color-primary-700: #c2410c;
+  --color-primary-800: #9a3412;
+  --color-primary-900: #7c2d12;
 
-  /* Accent — Red */
-  --color-accent: #d42e12;
-  --color-accent-dark: #a82209;
-  --color-accent-light: #fbe7e3;
-  --color-accent-50: #fdf3f1;
-  --color-accent-100: #fbe7e3;
-  --color-accent-200: #f6c6bd;
-  --color-accent-300: #ee977f;
-  --color-accent-400: #e2603f;
-  --color-accent-500: #d42e12;
-  --color-accent-600: #a82209;
-  --color-accent-700: #841a07;
+  /* Accent — deep navy. The counterweight to orange: secondary actions,
+     trust elements, and anywhere the page needs a calm, solid colour. */
+  --color-accent: #1e3a5f;
+  --color-accent-dark: #142a47;
+  --color-accent-light: #e6edf6;
+  --color-accent-50: #f2f6fb;
+  --color-accent-100: #e6edf6;
+  --color-accent-200: #c3d3e6;
+  --color-accent-300: #8fabcc;
+  --color-accent-400: #4f7aa6;
+  --color-accent-500: #1e3a5f;
+  --color-accent-600: #142a47;
+  --color-accent-700: #0e1f35;
+
+  /* WhatsApp brand green — used only for the WhatsApp actions themselves. */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1da851;
+  --color-whatsapp-ink: #075e54;
+  --color-whatsapp-light: #e7f9ef;
 
   /* Neutrals — 950 and 100 are fixed by the brand spec; the rest is a ramp
      tuned so every text pairing clears WCAG AA. */
@@ -242,19 +251,19 @@
     }
   }
 
-  /* Dark sections: deep neutral with a blue wash, red kept out of large fills. */
+  /* Dark sections: deep neutral with an orange glow and a navy floor. */
   /* Colourful, airy section ground used behind category browsing. */
   .surface-tint {
     background-image:
-      radial-gradient(38rem 22rem at 12% -10%, rgb(0 71 186 / 0.09), transparent 62%),
-      radial-gradient(30rem 20rem at 92% 0%, rgb(212 46 18 / 0.07), transparent 60%);
+      radial-gradient(38rem 22rem at 12% -10%, rgb(242 107 29 / 0.12), transparent 62%),
+      radial-gradient(30rem 20rem at 92% 0%, rgb(30 58 95 / 0.08), transparent 60%);
   }
 
   .surface-dark {
     background-color: var(--color-neutral-950);
     background-image:
-      radial-gradient(60rem 30rem at 80% -10%, rgb(0 71 186 / 0.42), transparent 62%),
-      radial-gradient(40rem 20rem at 0% 110%, rgb(0 71 186 / 0.22), transparent 60%);
+      radial-gradient(60rem 30rem at 80% -10%, rgb(242 107 29 / 0.38), transparent 62%),
+      radial-gradient(40rem 20rem at 0% 110%, rgb(30 58 95 / 0.45), transparent 60%);
     color: var(--color-neutral-100);
   }
 

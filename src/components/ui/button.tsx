@@ -8,18 +8,21 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Blue carries the identity: navigation, forms, confirmations.
+        // Orange with dark text — the only orange/text pairing that clears AA
+        // with room to spare, and the most recognisable buy-button pattern.
         primary:
-          'bg-primary text-white shadow-[0_8px_20px_-10px_var(--color-primary)] hover:bg-primary-dark',
-        // Red is reserved for commerce actions: add to cart, book, buy.
-        accent:
-          'bg-accent text-white shadow-[0_8px_20px_-10px_var(--color-accent)] hover:bg-accent-dark',
+          'bg-primary text-neutral-950 shadow-[0_8px_20px_-10px_var(--color-primary)] hover:bg-primary-600',
+        // Navy carries the secondary solid action.
+        accent: 'bg-accent text-white shadow-[0_8px_20px_-10px_var(--color-accent)] hover:bg-accent-dark',
+        // WhatsApp's own green, reserved for opening a chat.
+        whatsapp:
+          'bg-[var(--color-whatsapp)] text-neutral-950 shadow-[0_8px_20px_-10px_var(--color-whatsapp)] hover:bg-[var(--color-whatsapp-dark)]',
         dark: 'bg-neutral-950 text-neutral-100 hover:bg-neutral-800',
         outline:
           'border border-neutral-300 bg-transparent text-neutral-900 hover:border-primary hover:bg-primary-light hover:text-primary-dark',
         outlineInverted: 'border border-white/30 bg-transparent text-white hover:border-white hover:bg-white/10',
         ghost: 'text-neutral-700 hover:bg-primary-light hover:text-primary-dark',
-        link: 'text-primary underline-offset-4 hover:underline',
+        link: 'text-primary-dark underline-offset-4 hover:underline',
       },
       size: {
         sm: 'h-9 rounded-full px-4 text-body-sm',

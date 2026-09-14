@@ -5,10 +5,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --brand-primary: #0047ba;
-  --brand-primary-dark: #003488;
-  --brand-primary-light: #e6edf9;
-  --brand-accent: #d42e12;
+  --brand-primary: #f26b1d;
+  --brand-primary-dark: #c2410c;
+  --brand-primary-light: #ffe8d6;
+  --brand-accent: #1e3a5f;
   --brand-neutral-950: #0b0e14;
   --brand-neutral-200: #e4e8ee;
   --brand-neutral-100: #f5f6f8;
@@ -63,6 +63,7 @@ h4 {
 .btn--style-primary {
   background-color: var(--brand-primary);
   border-color: var(--brand-primary);
+  color: #0b0e14;
 
   &:hover,
   &:focus {

@@ -81,7 +81,7 @@ export const SiteFooter = async ({ locale }: { locale: Locale }) => {
         <div className="container-page grid gap-6 py-8 sm:grid-cols-2 lg:grid-cols-4">
           {promises.map(({ Icon, title, body }) => (
             <div key={title} className="flex items-start gap-3">
-              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary-light text-primary">
+              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary-light text-primary-dark">
                 <Icon className="size-5" />
               </span>
               <span>
@@ -130,7 +130,7 @@ export const SiteFooter = async ({ locale }: { locale: Locale }) => {
                       href={social.url}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="grid size-10 place-items-center rounded-full border border-white/15 text-neutral-200 transition-colors hover:border-primary-300 hover:bg-primary hover:text-white"
+                      className="grid size-10 place-items-center rounded-full border border-white/15 text-neutral-200 transition-colors hover:border-primary-300 hover:bg-primary hover:text-neutral-950"
                       aria-label={social.platform ?? 'social'}
                     >
                       <Icon className="size-4" />

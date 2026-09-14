@@ -32,14 +32,14 @@ export const FitmentBar = ({ className }: { className?: string }) => {
           className,
         )}
       >
-        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-white">
+        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-neutral-950">
           <Car className="size-5" />
         </span>
         <span className="flex-1">
           <span className="block font-semibold text-primary-dark">{t('selectCar')}</span>
           <span className="block text-body-sm text-neutral-600">{t('subtitle')}</span>
         </span>
-        <SlidersHorizontal className="size-4 shrink-0 text-primary" />
+        <SlidersHorizontal className="size-4 shrink-0 text-primary-dark" />
       </motion.button>
     )
   }
@@ -53,19 +53,19 @@ export const FitmentBar = ({ className }: { className?: string }) => {
         className,
       )}
     >
-      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-white">
+      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-neutral-950">
         <Car className="size-5" />
       </span>
 
       <span className="min-w-0 flex-1">
-        <span className="block text-label uppercase text-primary">{t('shoppingFor')}</span>
+        <span className="block text-label uppercase text-primary-dark">{t('shoppingFor')}</span>
         <span className="block truncate font-semibold text-neutral-950">{carLabel(car)}</span>
       </span>
 
       <button
         type="button"
         onClick={openPicker}
-        className="rounded-full px-3 py-1.5 text-body-sm font-medium text-primary underline-offset-4 hover:underline"
+        className="rounded-full px-3 py-1.5 text-body-sm font-medium text-primary-dark underline-offset-4 hover:underline"
       >
         {t('orPick')}
       </button>

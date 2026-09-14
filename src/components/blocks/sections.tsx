@@ -58,7 +58,7 @@ export const ServicesSection = ({
           const Icon = iconFor(item.icon)
           const content = (
             <Card className="group h-full p-6 transition-all duration-300 hover:-translate-y-1 hover:border-neutral-300 hover:shadow-[var(--shadow-lift)]">
-              <div className="mb-5 grid size-12 place-items-center rounded-2xl bg-primary-50 text-primary-600 transition-colors group-hover:bg-primary-500 group-hover:text-white">
+              <div className="mb-5 grid size-12 place-items-center rounded-2xl bg-primary-50 text-primary-dark transition-colors group-hover:bg-primary group-hover:text-neutral-950">
                 <Icon className="size-5" />
               </div>
               <h3 className="text-body font-semibold text-neutral-950">{item.title}</h3>
@@ -172,7 +172,7 @@ export const PromoBannerSection = ({
     <Reveal
       className={cn(
         'relative isolate overflow-hidden rounded-[2rem]',
-        theme === 'accent' && 'bg-primary-500 text-white',
+        theme === 'accent' && 'bg-primary text-neutral-950',
         theme === 'dark' && 'surface-dark',
         theme === 'light' && 'border border-neutral-200 bg-white',
       )}
@@ -215,7 +215,7 @@ export const StatsSection = ({ items }: { items?: { id?: string | null; value: s
       <StaggerGroup className="grid gap-6 rounded-[var(--radius-card)] border border-neutral-200 bg-white p-8 sm:grid-cols-2 lg:grid-cols-4 lg:p-12">
         {items.map((item) => (
           <StaggerItem key={item.id ?? item.label} className="text-center">
-            <p className="font-[family-name:var(--font-display)] text-h1 font-bold text-primary lg:text-display">
+            <p className="font-[family-name:var(--font-display)] text-h1 font-bold text-primary-dark lg:text-display">
               <CountUp value={item.value} />
             </p>
             <p className="mt-2 text-body-sm text-neutral-400">{item.label}</p>

@@ -96,7 +96,7 @@ export const ProductCard = ({
         )}
 
         <div className="absolute start-3 top-3 flex flex-col items-start gap-1.5">
-          {onSale ? <Badge tone="accent">-{Math.round((1 - (product.price ?? 0) / (product.compareAtPrice as number)) * 100)}%</Badge> : null}
+          {onSale ? <Badge tone="danger">-{Math.round((1 - (product.price ?? 0) / (product.compareAtPrice as number)) * 100)}%</Badge> : null}
           {fitsVehicle ? <Badge tone="success">{t('fitsYourCar')}</Badge> : null}
           {outOfStock ? <Badge tone="neutral">{t('outOfStock')}</Badge> : null}
         </div>
@@ -107,7 +107,7 @@ export const ProductCard = ({
           <p className="mb-1 text-label font-semibold uppercase tracking-wide text-neutral-400">{product.brand}</p>
         ) : null}
         <h3 className="text-body-sm font-medium leading-snug text-neutral-900">
-          <Link href={`/products/${product.slug}`} className="hover:text-primary-600">
+          <Link href={`/products/${product.slug}`} className="hover:text-primary-dark">
             {product.name}
           </Link>
         </h3>
@@ -132,7 +132,7 @@ export const ProductCard = ({
                 ? 'cursor-not-allowed bg-neutral-200 text-neutral-300'
                 : justAdded
                   ? 'bg-success text-white'
-                  : 'bg-accent text-white hover:bg-accent-dark',
+                  : 'bg-primary text-neutral-950 hover:bg-primary-600',
             )}
             aria-label={t('addToCart')}
           >

@@ -22,6 +22,7 @@ const badgeVariants = cva(
         neutral: 'bg-neutral-100 text-neutral-600',
         primary: 'bg-primary-light text-primary-dark',
         accent: 'bg-accent-light text-accent-dark',
+        whatsapp: 'bg-[var(--color-whatsapp-light)] text-[var(--color-whatsapp-ink)]',
         success: 'bg-success-light text-success',
         warning: 'bg-warning-light text-warning',
         danger: 'bg-danger-light text-danger',
@@ -108,7 +109,7 @@ export const SectionHeading = ({
   return (
     <div className={cn('max-w-2xl', align === 'center' && 'mx-auto text-center')}>
       {eyebrow ? (
-        <p className={cn('mb-3 text-label font-semibold uppercase tracking-[0.18em]', inverted ? 'text-primary-300' : 'text-primary-600')}>
+        <p className={cn('mb-3 text-label font-semibold uppercase tracking-[0.18em]', inverted ? 'text-primary-300' : 'text-primary-dark')}>
           {eyebrow}
         </p>
       ) : null}

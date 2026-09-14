@@ -56,10 +56,10 @@ export const StickyBuyBar = ({
           <div className="flex items-center gap-3">
             <div className="min-w-0 flex-1">
               <p className="truncate text-body-sm font-medium">{name}</p>
-              <p className="font-bold text-accent">{formatPrice(price, locale)}</p>
+              <p className="font-bold text-primary-dark">{formatPrice(price, locale)}</p>
             </div>
             <Button
-              variant="accent"
+              variant="primary"
               disabled={outOfStock}
               onClick={() => {
                 add({ productId, name, slug, price, image, maxQuantity: stockQuantity })

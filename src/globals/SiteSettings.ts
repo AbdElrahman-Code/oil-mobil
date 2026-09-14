@@ -27,7 +27,7 @@ export const SiteSettings: GlobalConfig = {
                 {
                   name: 'primaryColor',
                   type: 'text',
-                  defaultValue: '#0047BA',
+                  defaultValue: '#F26B1D',
                   admin: {
                     width: '50%',
                     description:
@@ -37,7 +37,7 @@ export const SiteSettings: GlobalConfig = {
                 {
                   name: 'accentColor',
                   type: 'text',
-                  defaultValue: '#D42E12',
+                  defaultValue: '#1E3A5F',
                   admin: {
                     width: '50%',
                     description:

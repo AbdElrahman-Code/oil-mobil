@@ -81,7 +81,7 @@ export const HeaderShell = ({
   const savedCount = mounted ? savedItems.length : 0
 
   const iconButton =
-    'relative grid size-11 place-items-center rounded-full text-neutral-700 transition-colors hover:bg-primary-light hover:text-primary'
+    'relative grid size-11 place-items-center rounded-full text-neutral-700 transition-colors hover:bg-primary-light hover:text-primary-dark'
 
   return (
     <header className="sticky top-0 z-40">
@@ -164,7 +164,7 @@ export const HeaderShell = ({
             <Link href="/wishlist" className={iconButton} aria-label={labels.wishlist}>
               <Heart className="size-5" />
               {savedCount > 0 ? (
-                <span className="absolute -end-0.5 -top-0.5 grid size-5 place-items-center rounded-full bg-primary text-label font-bold text-white">
+                <span className="absolute -end-0.5 -top-0.5 grid size-5 place-items-center rounded-full bg-primary text-label font-bold text-neutral-950">
                   {savedCount}
                 </span>
               ) : null}
@@ -183,7 +183,7 @@ export const HeaderShell = ({
                     initial={{ scale: 0.6, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.6, opacity: 0 }}
-                    className="absolute -end-0.5 -top-0.5 grid size-5 place-items-center rounded-full bg-accent text-label font-bold text-white"
+                    className="absolute -end-0.5 -top-0.5 grid size-5 place-items-center rounded-full bg-primary text-label font-bold text-neutral-950"
                   >
                     {count}
                   </motion.span>
@@ -267,7 +267,7 @@ export const HeaderShell = ({
                     <div className="ms-3 border-s border-neutral-200 ps-3">
                       <Link
                         href={`/shop/${category.slug}`}
-                        className="block rounded-lg px-3 py-2 text-body-sm font-medium text-primary"
+                        className="block rounded-lg px-3 py-2 text-body-sm font-medium text-primary-dark"
                       >
                         {category.name}
                       </Link>

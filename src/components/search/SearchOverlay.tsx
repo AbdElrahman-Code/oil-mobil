@@ -198,7 +198,7 @@ export const SearchOverlay = ({ open, onClose }: { open: boolean; onClose: () =>
                     onClose()
                     router.push(`/shop?q=${encodeURIComponent(term.trim())}` as never)
                   }}
-                  className="font-semibold text-primary hover:underline"
+                  className="font-semibold text-primary-dark hover:underline"
                 >
                   {t('allProducts')} →
                 </button>

@@ -16,6 +16,7 @@ import { ScrollHelpers } from '@/components/layout/ScrollHelpers'
 import { FloatingActions } from '@/components/layout/FloatingActions'
 import { GarageProvider } from '@/components/garage/GarageProvider'
 import { MobileTabBar } from '@/components/layout/MobileTabBar'
+import { SiteConfigProvider } from '@/components/layout/SiteConfig'
 import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider'
 import { BrandStyle } from '@/components/layout/BrandStyle'
 import '../globals.css'
@@ -83,10 +84,18 @@ export default async function FrontendLayout({
       <body className="min-h-dvh antialiased">
         <BrandStyle primaryColor={settings?.primaryColor} accentColor={settings?.accentColor} />
         <NextIntlClientProvider>
+          <SiteConfigProvider
+            value={{
+              siteName: settings?.siteName ?? '',
+              whatsappNumber: settings?.whatsappNumber ?? null,
+              deliveryFee: settings?.deliveryFee ?? 0,
+              freeDeliveryThreshold: settings?.freeDeliveryThreshold ?? 0,
+            }}
+          >
           <AnalyticsProvider>
             <a
               href="#main"
-              className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-primary focus:px-5 focus:py-2 focus:text-body-sm focus:text-white"
+              className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-primary focus:px-5 focus:py-2 focus:text-body-sm focus:text-neutral-950"
             >
               {locale === 'ar' ? 'تخطي إلى المحتوى' : 'Skip to content'}
             </a>
@@ -100,6 +109,7 @@ export default async function FrontendLayout({
             <MobileTabBar />
             <Toaster position={locale === 'ar' ? 'bottom-left' : 'bottom-right'} richColors closeButton />
           </AnalyticsProvider>
+          </SiteConfigProvider>
         </NextIntlClientProvider>
         <Analytics />
         <SpeedInsights />

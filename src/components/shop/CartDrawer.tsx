@@ -3,11 +3,15 @@
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react'
+import { MessageCircle, Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react'
 import { Link } from '@/i18n/routing'
 import { useCart, cartSubtotal } from '@/store/cart'
 import { Button } from '@/components/ui/button'
 import { formatPrice } from '@/lib/utils'
+import { useSiteConfig } from '@/components/layout/SiteConfig'
+import { useGarage, carLabel } from '@/store/garage'
+import { buildWhatsAppOrderMessage, whatsAppLink } from '@/lib/whatsapp-order'
+import { track } from '@/components/analytics/AnalyticsProvider'
 
 export const CartDrawer = () => {
   const locale = useLocale()
@@ -15,6 +19,23 @@ export const CartDrawer = () => {
   const { items, isOpen, close, remove, setQuantity } = useCart()
   const subtotal = cartSubtotal(items)
   const isRtl = locale === 'ar'
+  const { siteName, whatsappNumber, deliveryFee, freeDeliveryThreshold } = useSiteConfig()
+  const car = useGarage((state) => state.car)
+
+  const whatsappHref = whatsappNumber
+    ? whatsAppLink(
+        whatsappNumber,
+        buildWhatsAppOrderMessage({
+          locale: isRtl ? 'ar' : 'en',
+          siteName,
+          items: items.map((item) => ({ name: item.name, quantity: item.quantity, price: item.price })),
+          subtotal,
+          deliveryFee: freeDeliveryThreshold > 0 && subtotal >= freeDeliveryThreshold ? 0 : deliveryFee,
+          total: subtotal + (freeDeliveryThreshold > 0 && subtotal >= freeDeliveryThreshold ? 0 : deliveryFee),
+          car: carLabel(car) || null,
+        }),
+      )
+    : null
 
   return (
     <AnimatePresence>
@@ -75,11 +96,11 @@ export const CartDrawer = () => {
                         <Link
                           href={`/products/${item.slug}`}
                           onClick={close}
-                          className="line-clamp-2 text-body-sm font-medium text-neutral-900 hover:text-primary-600"
+                          className="line-clamp-2 text-body-sm font-medium text-neutral-900 hover:text-primary-dark"
                         >
                           {item.name}
                         </Link>
-                        <p className="mt-1 text-body-sm font-semibold text-primary-600">
+                        <p className="mt-1 text-body-sm font-semibold text-primary-dark">
                           {formatPrice(item.price, locale)}
                         </p>
                         <div className="mt-2 flex items-center gap-2">
@@ -123,9 +144,25 @@ export const CartDrawer = () => {
                     <span className="text-neutral-500">{t('subtotal')}</span>
                     <span className="text-h4 font-semibold">{formatPrice(subtotal, locale)}</span>
                   </div>
-                  <Button asChild size="lg" variant="accent" block onClick={close}>
+                  <Button asChild size="lg" variant="primary" block onClick={close}>
                     <Link href="/checkout">{t('checkout')}</Link>
                   </Button>
+                  {whatsappHref ? (
+                    <>
+                      <p className="my-2 text-center text-label uppercase text-neutral-400">{t('orText')}</p>
+                      <Button asChild size="lg" variant="whatsapp" block>
+                        <a
+                          href={whatsappHref}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          onClick={() => track('whatsapp_order_from_cart', { items: items.length, subtotal })}
+                        >
+                          <MessageCircle className="size-4" />
+                          {t('orderViaWhatsApp')}
+                        </a>
+                      </Button>
+                    </>
+                  ) : null}
                 </footer>
               </>
             )}

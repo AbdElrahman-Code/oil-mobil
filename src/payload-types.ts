@@ -656,7 +656,7 @@ export interface Order {
    * Internal only.
    */
   staffNotes?: string | null;
-  paymentMethod: 'cod' | 'payAtPickup' | 'paymob';
+  paymentMethod: 'cod' | 'payAtPickup' | 'whatsapp' | 'paymob';
   paymentStatus: 'unpaid' | 'paid' | 'refunded' | 'failed';
   /**
    * Paymob transaction id, filled in automatically for card payments.

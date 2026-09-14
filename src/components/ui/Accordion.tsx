@@ -27,7 +27,7 @@ export const Accordion = ({
                 aria-controls={`faq-panel-${item.id}`}
                 className="flex w-full items-center justify-between gap-4 px-5 py-5 text-start transition-colors hover:bg-neutral-50"
               >
-                <span className={cn('font-semibold', isOpen ? 'text-primary' : 'text-neutral-950')}>
+                <span className={cn('font-semibold', isOpen ? 'text-primary-dark' : 'text-neutral-950')}>
                   {item.question}
                 </span>
                 <motion.span
@@ -35,7 +35,7 @@ export const Accordion = ({
                   transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                   className={cn(
                     'grid size-8 shrink-0 place-items-center rounded-full transition-colors',
-                    isOpen ? 'bg-primary text-white' : 'bg-neutral-100 text-neutral-600',
+                    isOpen ? 'bg-primary text-neutral-950' : 'bg-neutral-100 text-neutral-600',
                   )}
                 >
                   <Plus className="size-4" />

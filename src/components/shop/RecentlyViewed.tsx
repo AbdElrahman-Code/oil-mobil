@@ -44,7 +44,7 @@ export const RecentlyViewed = ({ current }: { current: ViewedItem }) => {
                 />
               ) : null}
             </div>
-            <p className="mt-2 line-clamp-2 text-body-sm group-hover:text-primary">{item.name}</p>
+            <p className="mt-2 line-clamp-2 text-body-sm group-hover:text-primary-dark">{item.name}</p>
             <p className="text-body-sm font-semibold">{formatPrice(item.price, locale)}</p>
           </Link>
         ))}

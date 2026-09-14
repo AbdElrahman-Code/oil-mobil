@@ -77,7 +77,7 @@ export const ProductGrid = ({
           ) : (
             <>
               <p className="text-neutral-500">{t('noResults')}</p>
-              <Link href={basePath} className="mt-3 text-body-sm font-medium text-primary hover:underline">
+              <Link href={basePath} className="mt-3 text-body-sm font-medium text-primary-dark hover:underline">
                 {t('clearFilters')}
               </Link>
             </>

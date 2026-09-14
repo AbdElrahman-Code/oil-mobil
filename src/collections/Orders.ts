@@ -180,6 +180,7 @@ export const Orders: CollectionConfig = {
                   options: [
                     { label: { en: 'Cash on delivery', ar: 'الدفع عند الاستلام' }, value: 'cod' },
                     { label: { en: 'Pay at branch', ar: 'الدفع في الفرع' }, value: 'payAtPickup' },
+                    { label: { en: 'Order via WhatsApp', ar: 'طلب عبر واتساب' }, value: 'whatsapp' },
                     { label: { en: 'Card online (Paymob)', ar: 'بطاقة أونلاين' }, value: 'paymob' },
                   ],
                 },

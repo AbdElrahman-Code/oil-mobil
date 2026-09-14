@@ -34,7 +34,7 @@ export const MobileTabBar = () => {
   const isAccount = pathname.startsWith('/account')
 
   const tab = 'relative flex flex-1 flex-col items-center gap-1 py-2 text-[0.6875rem] font-medium transition-colors'
-  const activeTab = 'text-primary'
+  const activeTab = 'text-primary-dark'
   const idleTab = 'text-neutral-500'
 
   return (
@@ -65,7 +65,7 @@ export const MobileTabBar = () => {
             <span className="relative">
               <ShoppingBag className="size-5" />
               {count > 0 ? (
-                <span className="absolute -end-2 -top-1.5 grid size-4 place-items-center rounded-full bg-accent text-[0.625rem] font-bold text-white">
+                <span className="absolute -end-2 -top-1.5 grid size-4 place-items-center rounded-full bg-primary text-[0.625rem] text-neutral-950 font-bold text-white">
                   {count}
                 </span>
               ) : null}

@@ -138,7 +138,7 @@ export const CarPicker = ({ brands }: { brands: VehicleBrand[] }) => {
                       }}
                       className="flex items-center gap-3 rounded-xl border border-neutral-200 p-3 text-start transition-colors hover:border-primary hover:bg-primary-light"
                     >
-                      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary-light text-primary">
+                      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary-light text-primary-dark">
                         <Car className="size-5" />
                       </span>
                       <span className="min-w-0 flex-1">
@@ -149,7 +149,7 @@ export const CarPicker = ({ brands }: { brands: VehicleBrand[] }) => {
                           <span className="block text-body-sm text-neutral-400">{car.plateNumber}</span>
                         ) : null}
                       </span>
-                      <Check className="size-4 text-primary opacity-0 transition-opacity group-hover:opacity-100" />
+                      <Check className="size-4 text-primary-dark opacity-0 transition-opacity group-hover:opacity-100" />
                     </button>
                   ))}
                 </div>

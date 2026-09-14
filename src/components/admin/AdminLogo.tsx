@@ -10,7 +10,7 @@ export const AdminLogo = () => (
 
 export const AdminIcon = () => (
   <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
-    <rect width="34" height="34" rx="9" fill="#0047BA" />
+    <rect width="34" height="34" rx="9" fill="#F26B1D" />
     <path
       d="M17 8c3.6 4.2 5.6 7.2 5.6 9.9A5.6 5.6 0 0 1 17 23.5a5.6 5.6 0 0 1-5.6-5.6C11.4 15.2 13.4 12.2 17 8Z"
       fill="#fff"

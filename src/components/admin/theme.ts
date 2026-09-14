@@ -5,11 +5,11 @@
  * are expressed as plain objects rather than utility classes.
  */
 export const brand = {
-  primary: '#0047BA',
-  primaryDark: '#003488',
-  primaryLight: '#E6EDF9',
-  accent: '#D42E12',
-  accentLight: '#FBE7E3',
+  primary: '#F26B1D',
+  primaryDark: '#C2410C',
+  primaryLight: '#FFE8D6',
+  accent: '#1E3A5F',
+  accentLight: '#E6EDF6',
   neutral950: '#0B0E14',
   neutral600: '#3D4757',
   neutral400: '#6B7589',

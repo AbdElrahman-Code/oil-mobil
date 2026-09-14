@@ -38,7 +38,7 @@ export const ScrollHelpers = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="fixed bottom-24 end-4 z-40 lg:bottom-6 lg:end-6 grid size-11 place-items-center rounded-full bg-neutral-950 text-white shadow-[var(--shadow-lift)] transition-colors hover:bg-primary"
+            className="fixed bottom-24 end-4 z-40 lg:bottom-6 lg:end-6 grid size-11 place-items-center rounded-full bg-neutral-950 text-white shadow-[var(--shadow-lift)] transition-colors hover:bg-primary hover:text-neutral-950"
             aria-label={t('backToTop')}
           >
             <ArrowUp className="size-5" />

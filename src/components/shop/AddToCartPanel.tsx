@@ -3,11 +3,15 @@
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
-import { Minus, Plus, ShoppingBag } from 'lucide-react'
+import { MessageCircle, Minus, Plus, ShoppingBag } from 'lucide-react'
 import { useRouter } from '@/i18n/routing'
 import { Button } from '@/components/ui/button'
 import { useCart } from '@/store/cart'
 import { track } from '@/components/analytics/AnalyticsProvider'
+import { useSiteConfig } from '@/components/layout/SiteConfig'
+import { useGarage, carLabel } from '@/store/garage'
+import { buildWhatsAppOrderMessage, whatsAppLink } from '@/lib/whatsapp-order'
+import { useLocale } from 'next-intl'
 
 export const AddToCartPanel = ({
   productId,
@@ -29,7 +33,10 @@ export const AddToCartPanel = ({
   const t = useTranslations('shop')
   const tCart = useTranslations('cart')
   const router = useRouter()
+  const locale = useLocale()
   const add = useCart((state) => state.add)
+  const { siteName, whatsappNumber } = useSiteConfig()
+  const car = useGarage((state) => state.car)
   const [quantity, setQuantity] = useState(1)
 
   const outOfStock = stockQuantity !== null && stockQuantity <= 0
@@ -68,7 +75,7 @@ export const AddToCartPanel = ({
         </button>
       </div>
 
-      <Button size="lg" variant="accent" onClick={() => handleAdd(false)} disabled={outOfStock}>
+      <Button size="lg" variant="primary" onClick={() => handleAdd(false)} disabled={outOfStock}>
         <ShoppingBag className="size-4" />
         {outOfStock ? t('outOfStock') : t('addToCart')}
       </Button>
@@ -76,6 +83,31 @@ export const AddToCartPanel = ({
       <Button size="lg" variant="outline" onClick={() => handleAdd(true)} disabled={outOfStock}>
         {t('buyNow')}
       </Button>
+
+      {whatsappNumber ? (
+        <Button asChild size="lg" variant="whatsapp" className="w-full sm:w-auto">
+          <a
+            href={whatsAppLink(
+              whatsappNumber,
+              buildWhatsAppOrderMessage({
+                locale: locale === 'ar' ? 'ar' : 'en',
+                siteName,
+                items: [{ name, quantity, price, sku }],
+                subtotal: price * quantity,
+                deliveryFee: 0,
+                total: price * quantity,
+                car: carLabel(car) || null,
+              }),
+            )}
+            target="_blank"
+            rel="noreferrer noopener"
+            onClick={() => track('whatsapp_order_from_product', { productId, quantity })}
+          >
+            <MessageCircle className="size-4" />
+            {t('buyViaWhatsApp')}
+          </a>
+        </Button>
+      ) : null}
     </div>
   )
 }

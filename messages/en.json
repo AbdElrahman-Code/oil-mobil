@@ -80,7 +80,8 @@
     "wishlistEmpty": "You have not saved anything yet.",
     "recentlyViewed": "Recently viewed",
     "quickAdd": "Quick add",
-    "searchHint": "Search products"
+    "searchHint": "Search products",
+    "buyViaWhatsApp": "Ask / order on WhatsApp"
   },
   "cart": {
     "title": "Your cart",
@@ -94,7 +95,9 @@
     "checkout": "Checkout",
     "remove": "Remove",
     "quantity": "Quantity",
-    "continueShopping": "Continue shopping"
+    "continueShopping": "Continue shopping",
+    "orderViaWhatsApp": "Order via WhatsApp",
+    "orText": "or"
   },
   "checkout": {
     "title": "Checkout",
@@ -117,7 +120,11 @@
     "orderNote": "Anything we should know?",
     "successTitle": "Order received",
     "successBody": "Your order number is {orderNumber}. We will call you on {phone} to confirm.",
-    "trackOrder": "View order"
+    "trackOrder": "View order",
+    "whatsapp": "Send my order on WhatsApp",
+    "whatsappHint": "We confirm price, delivery and timing with you in the chat.",
+    "openWhatsApp": "Open WhatsApp",
+    "whatsappSuccessBody": "Your order {orderNumber} is saved. Tap the button to send it to us on WhatsApp — the details are already written."
   },
   "oilFinder": {
     "title": "Oil Finder",
