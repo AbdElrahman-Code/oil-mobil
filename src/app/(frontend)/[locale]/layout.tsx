@@ -57,6 +57,7 @@ export async function generateMetadata({
       type: 'website',
       siteName: name,
       locale: locale === 'ar' ? 'ar_EG' : 'en_US',
+      images: [{ url: '/brand/og.jpg', width: 1200, height: 630, alt: name }],
     },
   }
 }

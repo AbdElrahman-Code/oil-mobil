@@ -10,12 +10,12 @@ import { Button } from '@/components/ui/button'
 import { Card, FieldError, Input, Label } from '@/components/ui/primitives'
 import { cn } from '@/lib/utils'
 
-export const AuthForm = () => {
+export const AuthForm = ({ initialMode = 'login' }: { initialMode?: 'login' | 'signup' }) => {
   const t = useTranslations('account')
   const tCommon = useTranslations('common')
   const router = useRouter()
 
-  const [mode, setMode] = useState<'login' | 'signup'>('login')
+  const [mode, setMode] = useState<'login' | 'signup'>(initialMode)
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')

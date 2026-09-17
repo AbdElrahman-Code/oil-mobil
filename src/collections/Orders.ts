@@ -31,6 +31,11 @@ export const Orders: CollectionConfig = {
   },
   fields: [
     {
+      name: 'whatsappCustomer',
+      type: 'ui',
+      admin: { position: 'sidebar', components: { Field: '@/components/admin/OrderWhatsApp#OrderWhatsApp' } },
+    },
+    {
       name: 'orderNumber',
       type: 'text',
       unique: true,

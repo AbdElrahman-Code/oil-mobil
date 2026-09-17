@@ -1,4 +1,7 @@
+import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
+import { BRAND_LOGO } from '@/lib/brand'
+import { mediaUrl } from '@/lib/utils'
 import {
   BadgeCheck,
   Clock,
@@ -96,7 +99,15 @@ export const SiteFooter = async ({ locale }: { locale: Locale }) => {
       <div className="surface-dark">
         <div className="container-page grid gap-10 py-14 lg:grid-cols-[1.3fr_1fr_1fr_1.1fr] lg:py-16">
           <div>
-            <p className="font-[family-name:var(--font-display)] text-h4 font-bold text-white">{brandName}</p>
+            <Link href="/" className="inline-block rounded-2xl bg-white px-4 py-3">
+              <Image
+                src={mediaUrl(settings?.logo) ?? BRAND_LOGO}
+                alt={brandName}
+                width={800}
+                height={347}
+                className="h-12 w-auto"
+              />
+            </Link>
             {settings?.tagline ? (
               <p className="mt-3 max-w-sm text-body-sm leading-relaxed text-neutral-300">{settings.tagline}</p>
             ) : null}

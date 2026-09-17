@@ -16,7 +16,7 @@ export const SiteSettings: GlobalConfig = {
         {
           label: { en: 'Brand', ar: 'العلامة' },
           fields: [
-            { name: 'siteName', type: 'text', required: true, localized: true, defaultValue: 'Auto Service Center' },
+            { name: 'siteName', type: 'text', required: true, localized: true, defaultValue: 'Drift' },
             { name: 'tagline', type: 'text', localized: true },
             { name: 'logo', type: 'upload', relationTo: 'media', admin: { description: 'Used in the header. SVG or PNG with transparent background.' } },
             { name: 'logoDark', type: 'upload', relationTo: 'media', admin: { description: 'Optional light version for dark backgrounds.' } },

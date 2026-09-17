@@ -50,7 +50,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     meta: {
-      titleSuffix: '— Service Center Admin',
+      titleSuffix: '— Drift Admin',
     },
     components: {
       beforeDashboard: ['@/components/admin/DashboardOverview#DashboardOverview'],

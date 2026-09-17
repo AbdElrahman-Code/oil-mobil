@@ -1,6 +1,6 @@
 {
   "common": {
-    "brand": "Auto Service Center",
+    "brand": "Drift",
     "loading": "Loading…",
     "error": "Something went wrong. Please try again.",
     "retry": "Try again",
@@ -46,7 +46,9 @@
     "heroFallbackHeadline": "The right oil for your car, first time",
     "heroFallbackSub": "Genuine oils, filters and parts — with expert fitting and free vehicle records.",
     "findMyOil": "Find my oil",
-    "bookWash": "Book a wash"
+    "bookWash": "Book a wash",
+    "shopNow": "Shop now",
+    "registerCar": "Register my car"
   },
   "shop": {
     "title": "Shop",
@@ -212,7 +214,8 @@
     "loginSubtitle": "Use the phone number you gave us at the branch.",
     "password": "Password",
     "signup": "Create an account",
-    "haveAccount": "Already have an account?"
+    "haveAccount": "Already have an account?",
+    "askOnWhatsApp": "Ask on WhatsApp"
   },
   "footer": {
     "openingHours": "Opening hours",
@@ -235,5 +238,40 @@
     "shoppingFor": "Shopping for",
     "noFittingParts": "No parts here fit your car yet.",
     "showAllInstead": "Show all parts instead"
+  },
+  "advisor": {
+    "launcher": "What should I buy?",
+    "kicker": "AI for your car",
+    "title": "What should I buy for my car?",
+    "subtitle": "Tell us your car and we will pick the parts that fit it, with a reason for each.",
+    "close": "Close",
+    "signInTitle": "Sign in to get recommendations",
+    "signInBody": "Recommendations are built around the car saved in your account, so we need to know who you are first.",
+    "signIn": "Sign in",
+    "createAccount": "Create an account",
+    "yourCar": "Your car",
+    "pickCar": "Choose your car to start",
+    "change": "Change",
+    "select": "Select",
+    "askLabel": "What do you need?",
+    "promptEverything": "Everything my car needs",
+    "promptOilChange": "Oil change",
+    "promptBrakes": "Brakes & safety",
+    "promptSummer": "Summer / heat",
+    "promptCare": "Cleaning & care",
+    "thinking": "Checking what fits your car…",
+    "hint": "Pick a question above and we will do the rest.",
+    "priority_now": "Needed now",
+    "priority_soon": "Soon",
+    "priority_nice": "Nice to have",
+    "addToCart": "Add",
+    "added": "Added to cart",
+    "poweredBy": "Picked by AI from parts that fit your car",
+    "basedOnFitment": "Based on parts registered for your model",
+    "error_auth": "Please sign in first.",
+    "error_noCar": "Choose your car first.",
+    "error_rateLimit": "Too many requests — try again in a minute.",
+    "error_empty": "We have no parts registered for this car yet. Message us on WhatsApp and we will find them.",
+    "error_failed": "Something went wrong. Please try again."
   }
 }

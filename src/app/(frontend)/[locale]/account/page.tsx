@@ -13,6 +13,8 @@ import { Badge, Card } from '@/components/ui/primitives'
 import { Button } from '@/components/ui/button'
 import { LogoutButton } from '@/components/account/LogoutButton'
 import { ReorderButton } from '@/components/account/ReorderButton'
+import { whatsAppLink } from '@/lib/whatsapp-order'
+import { getSiteSettings } from '@/lib/payload'
 import { formatDate, formatPrice } from '@/lib/utils'
 
 export async function generateMetadata({
@@ -33,11 +35,12 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
   if (!customer) redirect({ href: '/account/login', locale })
 
   const customerId = (customer as NonNullable<typeof customer>).id
-  const [vehicles, orders, t, tShop] = await Promise.all([
+  const [vehicles, orders, t, tShop, settings] = await Promise.all([
     getCustomerVehicles(customerId, locale),
     getCustomerOrders(customerId, locale),
     getTranslations({ locale, namespace: 'account' }),
     getTranslations({ locale, namespace: 'shop' }),
+    getSiteSettings(locale),
   ])
 
   const dueVehicles = vehicles
@@ -125,6 +128,21 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
                     {order.orderStatus}
                   </Badge>
                   <span className="font-semibold">{formatPrice(order.total, locale)}</span>
+                  {settings?.whatsappNumber ? (
+                    <a
+                      href={whatsAppLink(
+                        settings.whatsappNumber,
+                        locale === 'ar'
+                          ? `مرحباً، عندي استفسار بخصوص طلبي رقم ${order.orderNumber}`
+                          : `Hello, I have a question about my order ${order.orderNumber}`,
+                      )}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="rounded-full bg-[var(--color-whatsapp-light)] px-3 py-1.5 text-body-sm font-medium text-[var(--color-whatsapp-ink)] transition-colors hover:bg-whatsapp hover:text-neutral-950"
+                    >
+                      {t('askOnWhatsApp')}
+                    </a>
+                  ) : null}
                   <ReorderButton
                     label={t('reorder')}
                     items={(order.items ?? []).map((item) => ({

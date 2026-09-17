@@ -129,9 +129,9 @@ export const HeaderShell = ({
               <Image
                 src={logoUrl}
                 alt={brandName}
-                width={200}
-                height={49}
-                className="h-9 w-auto lg:h-11"
+                width={800}
+                height={347}
+                className="h-10 w-auto lg:h-14"
                 priority
               />
             ) : (

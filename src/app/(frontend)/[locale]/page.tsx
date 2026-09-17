@@ -6,6 +6,7 @@ import { RenderBlocks } from '@/components/blocks/RenderBlocks'
 import { HeroSection } from '@/components/blocks/HeroSection'
 import { FeaturedProductsSection } from '@/components/blocks/sections'
 import { LocalBusinessSchema } from '@/components/seo/StructuredData'
+import { CarAdvisor } from '@/components/advisor/CarAdvisor'
 
 export const revalidate = 300
 
@@ -37,6 +38,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
   return (
     <>
       <LocalBusinessSchema settings={settings} locale={locale} />
+      <CarAdvisor />
 
       {hasSections ? (
         <RenderBlocks sections={homepage?.sections} locale={locale} />
@@ -47,8 +49,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
             headline={t('heroFallbackHeadline')}
             subheadline={t('heroFallbackSub')}
             buttons={[
-              { label: t('findMyOil'), href: '/oil-finder', style: 'primary' },
-              { label: t('bookWash'), href: '/car-wash', style: 'outline' },
+              { label: t('shopNow'), href: '/shop', style: 'primary' },
+              { label: t('registerCar'), href: '/account/login', style: 'outline' },
             ]}
           />
           <FeaturedProductsSection

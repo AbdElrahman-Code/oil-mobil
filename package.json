@@ -17,9 +17,11 @@
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
     "migrate:create": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:create",
-    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/run.ts"
+    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/run.ts",
+    "seed:settings": "cross-env NODE_ENV=production NODE_OPTIONS=--no-deprecation tsx src/seed/settings.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.126.0",
     "@hookform/resolvers": "^3.9.1",
     "@payloadcms/db-postgres": "3.88.0",
     "@payloadcms/next": "3.88.0",

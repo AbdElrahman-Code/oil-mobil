@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import { getCategoryTree, getNavigation, getSiteSettings } from '@/lib/payload'
 import { formatPrice, mediaUrl } from '@/lib/utils'
+import { BRAND_LOGO } from '@/lib/brand'
 import type { Locale } from '@/i18n/routing'
 import { HeaderShell, type HeaderLink } from './HeaderShell'
 import type { MenuCategory } from './MegaMenu'
@@ -52,8 +53,8 @@ export const SiteHeader = async ({ locale }: { locale: Locale }) => {
       links={configured.length ? configured : fallback}
       categories={categories}
       brandName={settings?.siteName || t('home')}
-      logoUrl={mediaUrl(settings?.logo)}
-      logoDarkUrl={mediaUrl(settings?.logoDark)}
+      logoUrl={mediaUrl(settings?.logo) ?? BRAND_LOGO}
+      logoDarkUrl={mediaUrl(settings?.logoDark) ?? BRAND_LOGO}
       phone={settings?.phone ?? null}
       whatsapp={settings?.whatsappNumber ?? null}
       deliveryNote={deliveryNote}

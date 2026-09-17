@@ -333,7 +333,7 @@ const run = async () => {
     data: {
       header: headerEn.map((item) => ({ ...item, children: [] })),
       footerColumns: footerEn,
-      footerNote: '© Auto Service Center. All rights reserved.',
+      footerNote: '© Drift Car Accessories. All rights reserved.',
     },
   })
 

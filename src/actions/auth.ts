@@ -98,6 +98,9 @@ export const logoutCustomer = async (): Promise<void> => {
 }
 
 /** The signed-in customer, or null. Used by every /account page. */
+/** Cheap yes/no for client components that must not make a static page dynamic. */
+export const isSignedIn = async (): Promise<boolean> => Boolean(await getCurrentCustomer())
+
 export const getCurrentCustomer = async (): Promise<Customer | null> => {
   try {
     const payload = await getPayloadClient()

@@ -15,7 +15,14 @@ export async function generateMetadata({
   return { title: t('loginTitle'), robots: { index: false } }
 }
 
-export default async function LoginPage({ params }: { params: Promise<{ locale: Locale }> }) {
+export default async function LoginPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: Locale }>
+  searchParams: Promise<{ mode?: string }>
+}) {
+  const { mode } = await searchParams
   const { locale } = await params
   setRequestLocale(locale)
 
@@ -29,7 +36,7 @@ export default async function LoginPage({ params }: { params: Promise<{ locale: 
       <div className="mx-auto max-w-md">
         <h1 className="text-h1">{t('loginTitle')}</h1>
         <p className="mt-3 text-neutral-400">{t('loginSubtitle')}</p>
-        <AuthForm />
+        <AuthForm initialMode={mode === 'signup' ? 'signup' : 'login'} />
       </div>
     </div>
   )

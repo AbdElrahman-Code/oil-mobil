@@ -1,4 +1,4 @@
-# Auto Service Center — platform
+# Drift Car Accessories — platform
 
 Bilingual (Arabic-first, RTL) commercial platform for an Egyptian automotive
 service centre: shop, smart oil recommendation engine, filter lookup, car-wash
@@ -35,8 +35,20 @@ The seed prints the admin and demo-customer credentials when it finishes.
 | `NEXT_PUBLIC_SERVER_URL` | Public base URL, used for SEO and callbacks |
 
 Everything else in `.env.example` is optional — S3/R2 media storage, Paymob,
-WhatsApp/SMS, PostHog. Each degrades gracefully when unset: media goes to local
-disk, card payment stays off, notifications are logged instead of sent.
+WhatsApp/SMS, PostHog, Anthropic. Each degrades gracefully when unset: media goes
+to local disk, card payment stays off, notifications are logged instead of sent.
+
+| Optional | Purpose |
+| --- | --- |
+| `ANTHROPIC_API_KEY` | Powers the home-page **"What should I buy for my car?"** advisor (Claude Opus 5). Without it the advisor still answers, using fitment rules only. |
+
+### Brand assets
+
+The Drift logo ships in `public/brand/` (`logo.png` header lockup, `mark.png`
+square mark, `og.jpg` social card) and the favicons in `src/app/icon.png` /
+`apple-icon.png`. Uploading a logo in **Site Settings → Brand** overrides the
+shipped one. `npm run seed:settings` applies the launch name and the shop phone /
+WhatsApp number (+20 10 27204231).
 
 ---
 
